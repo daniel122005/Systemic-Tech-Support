@@ -32,7 +32,7 @@ export const contacto = {
   telefono: '+57 312 4860459' as string | null,
   correo: 'SystemicTech@gmail.com' as string | null,
   ciudad: 'Florencia, Caquetá' as string | null,
-  direccion: null as string | null, // 'Calle ... # ... - ...'
+  direccion: 'Calle 13#6A-03 San Judas Alto' as string | null, // 'Calle ... # ... - ...'
   horario: 'Lun a Vie 8:00 a. m. – 6:00 p. m. · Sáb 9:00 a. m. – 1:00 p. m.' as string | null,
 };
 

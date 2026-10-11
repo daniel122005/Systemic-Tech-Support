@@ -1,19 +1,21 @@
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router';
 import { Encabezado } from './components/Encabezado';
 import { PiePagina } from './components/PiePagina';
 import { WhatsAppFlotante } from './components/WhatsAppFlotante';
 import { ProveedorSesion, RutaPrivada } from './auth/Sesion';
-import { Ingresar } from './paginas/auth/Ingresar';
-import { NuevaContrasena } from './paginas/auth/NuevaContrasena';
-import { Recuperar } from './paginas/auth/Recuperar';
-import { Registro } from './paginas/auth/Registro';
-import { Cursos } from './paginas/Cursos';
 import { Inicio } from './paginas/Inicio';
-import { MiCuenta } from './paginas/MiCuenta';
-import { Privacidad } from './paginas/Privacidad';
 import { Proximamente } from './paginas/Proximamente';
+
+// Páginas que se descargan solo cuando alguien las abre (el Inicio carga más rápido).
+const Cursos = lazy(() => import('./paginas/Cursos').then((m) => ({ default: m.Cursos })));
+const Ingresar = lazy(() => import('./paginas/auth/Ingresar').then((m) => ({ default: m.Ingresar })));
+const Registro = lazy(() => import('./paginas/auth/Registro').then((m) => ({ default: m.Registro })));
+const Recuperar = lazy(() => import('./paginas/auth/Recuperar').then((m) => ({ default: m.Recuperar })));
+const NuevaContrasena = lazy(() => import('./paginas/auth/NuevaContrasena').then((m) => ({ default: m.NuevaContrasena })));
+const MiCuenta = lazy(() => import('./paginas/MiCuenta').then((m) => ({ default: m.MiCuenta })));
+const Privacidad = lazy(() => import('./paginas/Privacidad').then((m) => ({ default: m.Privacidad })));
 
 const titulos: Record<string, string> = {
   '/': 'Systemic Tech & Support · Soporte técnico integral',
@@ -46,7 +48,7 @@ export default function App() {
           Saltar al contenido
         </a>
         <Encabezado />
-        <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo({ top: 0 })}>
+        <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo({ top: 0, behavior: 'instant' })}>
           <motion.main
             id="contenido"
             key={ubicacion.pathname}
@@ -55,29 +57,31 @@ export default function App() {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Routes location={ubicacion}>
-              <Route path="/" element={<Inicio />} />
-              <Route path="/productos" element={<Proximamente titulo="Productos" />} />
-              <Route path="/servicios" element={<Proximamente titulo="Servicios" />} />
-              <Route path="/reparaciones" element={<Proximamente titulo="Reparaciones" />} />
-              <Route path="/desarrollo" element={<Proximamente titulo="Desarrollo de software" />} />
-              <Route path="/contacto" element={<Proximamente titulo="Contacto" />} />
-              <Route path="/cursos" element={<Cursos />} />
-              <Route path="/ingresar" element={<Ingresar />} />
-              <Route path="/registro" element={<Registro />} />
-              <Route path="/recuperar" element={<Recuperar />} />
-              <Route path="/nueva-contrasena" element={<NuevaContrasena />} />
-              <Route path="/privacidad" element={<Privacidad />} />
-              <Route
-                path="/cuenta"
-                element={
-                  <RutaPrivada>
-                    <MiCuenta />
-                  </RutaPrivada>
-                }
-              />
-              <Route path="*" element={<Proximamente titulo="Página no encontrada" />} />
-            </Routes>
+            <Suspense fallback={<div className="min-h-[80svh]" aria-busy="true" />}>
+              <Routes location={ubicacion}>
+                <Route path="/" element={<Inicio />} />
+                <Route path="/productos" element={<Proximamente titulo="Productos" />} />
+                <Route path="/servicios" element={<Proximamente titulo="Servicios" />} />
+                <Route path="/reparaciones" element={<Proximamente titulo="Reparaciones" />} />
+                <Route path="/desarrollo" element={<Proximamente titulo="Desarrollo de software" />} />
+                <Route path="/contacto" element={<Proximamente titulo="Contacto" />} />
+                <Route path="/cursos" element={<Cursos />} />
+                <Route path="/ingresar" element={<Ingresar />} />
+                <Route path="/registro" element={<Registro />} />
+                <Route path="/recuperar" element={<Recuperar />} />
+                <Route path="/nueva-contrasena" element={<NuevaContrasena />} />
+                <Route path="/privacidad" element={<Privacidad />} />
+                <Route
+                  path="/cuenta"
+                  element={
+                    <RutaPrivada>
+                      <MiCuenta />
+                    </RutaPrivada>
+                  }
+                />
+                <Route path="*" element={<Proximamente titulo="Página no encontrada" />} />
+              </Routes>
+            </Suspense>
           </motion.main>
         </AnimatePresence>
         <PiePagina />

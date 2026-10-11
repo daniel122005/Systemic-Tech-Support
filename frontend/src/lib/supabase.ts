@@ -16,27 +16,29 @@ function esClaveSecreta(k: string): boolean {
   }
 }
 
-export let motivoSinAuth: string | null = null;
-let cliente: SupabaseClient | null = null;
-
-if (!url || !clave) {
-  motivoSinAuth = 'Falta configurar VITE_SUPABASE_URL o VITE_SUPABASE_ANON_KEY en frontend/.env';
-} else if (esClaveSecreta(clave)) {
-  motivoSinAuth = 'VITE_SUPABASE_ANON_KEY tiene la clave SECRETA. Usa la clave anon / publishable.';
-  console.error(`[Systemic] ${motivoSinAuth}`);
-} else if (!/^sb_publishable_\S+$/.test(clave) && !/^eyJ[\w-]+\.[\w-]+\.[\w-]+$/.test(clave)) {
+function diagnosticar(): string | null {
+  if (!url || !clave) return 'Falta configurar VITE_SUPABASE_URL o VITE_SUPABASE_ANON_KEY en frontend/.env';
+  if (esClaveSecreta(clave)) return 'VITE_SUPABASE_ANON_KEY tiene la clave SECRETA. Usa la clave anon / publishable.';
   // La clave pública es un JWT (eyJ...) o empieza por sb_publishable_; cualquier otra cosa es un error de copia.
-  motivoSinAuth = 'VITE_SUPABASE_ANON_KEY no parece una clave de Supabase. Cópiala de Project Settings → API Keys (anon / publishable).';
-  console.error(`[Systemic] ${motivoSinAuth}`);
-} else {
-  cliente = createClient(url, clave, {
-    auth: {
-      flowType: 'pkce', // los enlaces de correo traen un código de un solo uso, no tokens en la URL
-      persistSession: true,
-      autoRefreshToken: true,
-      detectSessionInUrl: true,
-    },
-  });
+  if (!/^sb_publishable_\S+$/.test(clave) && !/^eyJ[\w-]+\.[\w-]+\.[\w-]+$/.test(clave)) {
+    return 'VITE_SUPABASE_ANON_KEY no parece una clave de Supabase. Cópiala de Project Settings → API Keys (anon / publishable).';
+  }
+  return null;
 }
+
+/** Por qué no hay inicio de sesión (null si está bien configurado). */
+export const motivoSinAuth = diagnosticar();
+if (motivoSinAuth && url && clave) console.error(`[Systemic] ${motivoSinAuth}`);
+
+const cliente: SupabaseClient | null = motivoSinAuth
+  ? null
+  : createClient(url, clave, {
+      auth: {
+        flowType: 'pkce', // los enlaces de correo traen un código de un solo uso, no tokens en la URL
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+      },
+    });
 
 export const supabase = cliente;

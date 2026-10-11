@@ -1,4 +1,4 @@
-// Cliente del backend (systemic-backend). El navegador NUNCA habla directo con la base:
+// Cliente del backend (carpeta backend/). El navegador NUNCA habla directo con la base:
 // todo pasa por la API Express, que aplica la seguridad.
 
 export const API_URL: string = (import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api').replace(/\/$/, '');

@@ -1,6 +1,6 @@
 # Systemic Tech & Support — Frontend (React + Vite)
 
-Sitio web público. Habla **solo con el backend** (`systemic-backend`), nunca directo con la base de datos.
+Sitio web público. Habla **solo con el backend** (carpeta `backend/`), nunca directo con la base de datos.
 Stack: React 19 · Vite · TypeScript · Tailwind CSS v4 · Framer Motion · React Router.
 
 ## Ejecutar (desarrollo)
@@ -9,7 +9,7 @@ Se necesitan **dos terminales** en VS Code (Terminal → New Terminal; el botón
 
 **Terminal 1 — backend**
 ```
-cd systemic-backend
+cd backend
 npm run dev
 ```
 Debe quedar escuchando en http://localhost:3000 (prueba: http://localhost:3000/api/salud).
@@ -41,6 +41,10 @@ El correo de prueba de Supabase tiene un límite bajo de envíos por hora; para 
 
 El registro guarda en los metadatos del usuario la aceptación de la política de datos
 (`acepta_tratamiento_datos`, fecha y versión) porque la base aún no tiene un campo para eso.
+Esos metadatos los puede modificar el propio usuario: sirven como constancia, no como prueba firme.
+
+En Supabase (Authentication → Sign In / Providers → Email) poner la **longitud mínima de contraseña en 8**:
+el formulario ya lo exige, pero sin ese ajuste alguien podría saltárselo llamando a Supabase directamente.
 
 Si cambias el `.env`, detén el servidor (Ctrl + C) y vuelve a ejecutar `npm run dev`.
 
@@ -59,9 +63,10 @@ src/
   auth/                  Sesión (ProveedorSesion, RutaPrivada) y traducción de errores de Supabase
   lib/api.ts             Cliente del backend (envía el token de sesión)
   lib/supabase.ts        Cliente de Supabase (solo Auth)
-  components/            Encabezado, pie, WhatsApp flotante, tarjetas con tilt, contador, hero/
+  components/            Encabezado, pie, WhatsApp flotante, formularios, tarjetas con tilt, contador, hero/ (cubo 3D)
   secciones/             Secciones de la página de Inicio
-  paginas/               Inicio, acceso (auth/), Mi cuenta, privacidad y marcador "en construcción"
+  paginas/               Inicio, Cursos, acceso (auth/), Mi cuenta, privacidad y marcador "en construcción"
+public/favicon.svg       Ícono de la pestaña (cubo de la marca)
 ```
 
 ## Datos pendientes

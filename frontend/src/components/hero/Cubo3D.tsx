@@ -3,8 +3,8 @@
 // - Núcleo de luz cian que se ve entre las caras.
 // - Entra girando, flota, oscila suave y sigue al mouse (mx, my entre -0.5 y 0.5).
 // El tamaño se toma del contenedor: el padre debe tener `container-type: inline-size`.
-import { animate, motion, useMotionValue, useReducedMotion, useTime, useTransform, type MotionValue } from 'framer-motion';
-import { useEffect, type CSSProperties } from 'react';
+import { animate, motion, useAnimationFrame, useInView, useMotionValue, useReducedMotion, useTransform, type MotionValue } from 'framer-motion';
+import { useEffect, useRef, type CSSProperties } from 'react';
 
 const ISO_X = -35.26; // inclinación isométrica (se ve la cara superior)
 const ISO_Y = 45;
@@ -61,16 +61,17 @@ function Cara({ transform, fondo, pistas, indice, reducido }: (typeof caras)[num
         </g>
         {pistas.flatMap((p, i) =>
           p.nodos.map(([x, y]) => (
-            <motion.circle
+            // Latido en CSS (clase nodo-latido): se pausa fuera de pantalla y respeta reduced-motion.
+            <circle
               key={`${p.d}-${x}-${y}`}
               cx={x}
               cy={y}
               r={5}
+              fill="#0E4E7A"
               stroke="#EEF0EF"
               strokeWidth={3}
-              initial={{ fill: '#0E4E7A' }}
-              animate={reducido ? undefined : { fill: ['#0E4E7A', '#22E3E0', '#0E4E7A'] }}
-              transition={{ delay: 2 + indice * 0.35 + i * 0.5, duration: 1.2, repeat: Infinity, repeatDelay: 3 }}
+              className="nodo-latido"
+              style={{ animationDelay: `${2 + indice * 0.35 + i * 0.5}s` }}
             />
           )),
         )}
@@ -93,7 +94,13 @@ export function Cubo3D({ mx, my, lado = 30, className = '' }: Props) {
   const ratonX = mx ?? cero;
   const ratonY = my ?? cero;
   const giro = useMotionValue(reducido ? 0 : -300); // entrada girando
-  const tiempo = useTime();
+  // Reloj de la oscilación: solo avanza mientras el cubo está en pantalla (fuera de ella no recalcula nada).
+  const contenedor = useRef<HTMLDivElement>(null);
+  const visible = useInView(contenedor);
+  const tiempo = useMotionValue(0);
+  useAnimationFrame((_t, delta) => {
+    if (visible && !reducido) tiempo.set(tiempo.get() + delta);
+  });
 
   useEffect(() => {
     if (reducido) return;
@@ -110,7 +117,7 @@ export function Cubo3D({ mx, my, lado = 30, className = '' }: Props) {
   const estilo = { '--lado': `${lado}cqw`, '--medio': `${lado / 2}cqw` } as CSSProperties;
 
   return (
-    <div className={`pointer-events-none absolute inset-0 grid place-items-center ${className}`} style={estilo} aria-hidden>
+    <div ref={contenedor} className={`pointer-events-none absolute inset-0 grid place-items-center ${className}`} style={estilo} aria-hidden>
       {/* Sombra sobre el "piso" */}
       <motion.div
         className="absolute top-[78%] left-1/2 h-[6cqw] w-[34cqw] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(closest-side,rgba(8,198,196,0.45),transparent)] blur-md"

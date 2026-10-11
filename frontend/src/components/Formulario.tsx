@@ -151,3 +151,7 @@ export function ReglasClave({ clave }: { clave: string }) {
 }
 
 export const correoValido = (c: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(c.trim());
+
+/** Igual que el backend: quita espacios, guiones y paréntesis; admite + al inicio y 7 a 15 dígitos. */
+export const limpiarTelefono = (t: string) => t.replace(/[\s()-]/g, '');
+export const telefonoValido = (t: string) => /^\+?\d{7,15}$/.test(limpiarTelefono(t));

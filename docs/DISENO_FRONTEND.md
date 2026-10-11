@@ -1,8 +1,8 @@
 # Brief de diseño del frontend — Systemic Tech & Support
 
 ## Referencias
-- Logo: `assets/logo-systemic.jpg` (cubo isométrico con pistas de circuito + "SYSTEMIC · TECH & SUPPORT").
-- Maqueta actual de la página de inicio: `assets/referencia-inicio.png`. **Es solo el punto de partida**: queremos algo **más llamativo, moderno y con muy buenas animaciones**, manteniendo la estructura (menú, hero con logo, botones, cifras, WhatsApp flotante).
+- Logo: `assets/logo-systemic.jpg` (cubo isométrico con pistas de circuito + "SYSTEMIC · TECH & SUPPORT"). En la web se usa su versión vectorial (`CuboIcono` y el cubo 3D del hero) y `frontend/public/favicon.svg`.
+- La maqueta inicial (menú, hero con logo, botones, cifras, WhatsApp flotante) ya está implementada y mejorada en la página de Inicio.
 
 ## Identidad visual
 - Paleta tomada del logo:
@@ -41,5 +41,6 @@ React + Vite + TypeScript, Tailwind CSS, **Framer Motion** (animaciones), React 
 - No inventar datos del negocio. Las cifras de la maqueta ("+1.200 clientes", "+8 años", "100% garantía") y cualquier testimonio deben confirmarse; mientras tanto usar `[DATO REAL PENDIENTE]`.
 - Textos en español de Colombia, tono cercano y profesional.
 
-## Primera tarea sugerida para Claude Code
-Crear `frontend/` con Vite + React + TS + Tailwind + Framer Motion, configurar la paleta y fuentes, y construir **la página de Inicio completa** con las animaciones del hero, consumiendo `/api/productos` para "productos destacados". Mostrar cómo ejecutarlo (`npm run dev`).
+## Estado
+Hecho: Inicio completo, registro/ingreso/recuperación, Mi cuenta (perfil), Cursos (fase 1), header y footer.
+Siguiente: Productos (catálogo con filtros, detalle y carrito sin cuenta), Servicios/Reparaciones (solicitud y agenda con `/api/horarios`), Desarrollo, Contacto y el resto de Mi cuenta. Mantener la misma paleta, componentes (`components/`) y animaciones.

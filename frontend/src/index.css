@@ -111,6 +111,39 @@
   animation: girar 4s linear infinite;
 }
 
+/* Latido de los nodos del cubo 3D */
+@keyframes latido-nodo {
+  0%, 28%, 100% { fill: #0e4e7a; }
+  14% { fill: #22e3e0; }
+}
+.nodo-latido {
+  animation: latido-nodo 4.2s ease-in-out infinite;
+}
+
+/* Halo y anillos del hero */
+@keyframes halo {
+  0%, 100% { opacity: 0.35; transform: scale(0.92); }
+  50% { opacity: 0.65; transform: scale(1.08); }
+}
+.halo-pulso {
+  animation: halo 4.5s ease-in-out infinite;
+}
+@keyframes girar-inverso {
+  to { transform: rotate(-360deg); }
+}
+.giro-lento {
+  animation: girar 60s linear infinite;
+}
+.giro-inverso {
+  animation: girar-inverso 40s linear infinite;
+}
+
+/* Cuando una sección sale de la pantalla se pausan sus animaciones (ahorra CPU y batería) */
+.pausado,
+.pausado * {
+  animation-play-state: paused !important;
+}
+
 /* Pulso del botón de WhatsApp */
 @keyframes onda {
   0% { transform: scale(1); opacity: 0.55; }
@@ -127,8 +160,13 @@
   .pulso-pista,
   .particula,
   .borde-giratorio,
-  .onda {
+  .onda,
+  .nodo-latido,
+  .halo-pulso,
+  .giro-lento,
+  .giro-inverso {
     animation: none !important;
   }
   .pulso-pista { opacity: 0; }
+  .halo-pulso { opacity: 0.45; }
 }

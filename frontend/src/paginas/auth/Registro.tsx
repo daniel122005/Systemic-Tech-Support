@@ -5,7 +5,7 @@ import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router';
 import { mensajeAuth } from '../../auth/errores';
 import { destinoSeguro } from '../../auth/Sesion';
-import { Aviso, BotonEnviar, Campo, claveValida, correoValido, ReglasClave } from '../../components/Formulario';
+import { Aviso, BotonEnviar, Campo, claveValida, correoValido, limpiarTelefono, ReglasClave, telefonoValido } from '../../components/Formulario';
 import { supabase } from '../../lib/supabase';
 import { DisenoAcceso } from './DisenoAcceso';
 
@@ -27,11 +27,11 @@ export function Registro() {
 
   async function enviar(e: FormEvent) {
     e.preventDefault();
-    const tel = f.telefono.replace(/[\s-]/g, '');
+    const tel = limpiarTelefono(f.telefono);
     const nuevos: Errores = {
       nombres: f.nombres.trim() ? undefined : 'Escribe tu nombre.',
       correo: correoValido(f.correo) ? undefined : 'Escribe un correo válido.',
-      telefono: !tel || /^\+?\d{7,15}$/.test(tel) ? undefined : 'Escribe un teléfono válido (solo números).',
+      telefono: !tel || telefonoValido(tel) ? undefined : 'Escribe un teléfono válido (solo números).',
       clave: claveValida(f.clave) ? undefined : 'La contraseña no cumple los requisitos.',
       confirmar: f.confirmar === f.clave ? undefined : 'Las contraseñas no coinciden.',
       acepta: acepta ? undefined : 'Debes aceptar la política de tratamiento de datos.',

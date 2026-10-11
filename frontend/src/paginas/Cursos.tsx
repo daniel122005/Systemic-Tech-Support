@@ -6,7 +6,7 @@ import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { Link } from 'react-router';
 import { useSesion } from '../auth/Sesion';
 import { Escalonado, varianteHijo } from '../components/Aparecer';
-import { AreaTexto, Aviso, BotonEnviar, Campo, correoValido } from '../components/Formulario';
+import { AreaTexto, Aviso, BotonEnviar, Campo, correoValido, limpiarTelefono, telefonoValido } from '../components/Formulario';
 import { api, ErrorApi, type InteresCurso } from '../lib/api';
 
 const pasos = [
@@ -36,12 +36,12 @@ function Formulario() {
 
   async function enviar(e: FormEvent) {
     e.preventDefault();
-    const tel = f.telefono.replace(/[\s-]/g, '');
+    const tel = limpiarTelefono(f.telefono);
     const nuevos: Errores = { tema: f.tema.trim() ? undefined : 'Cuéntanos qué te gustaría aprender.' };
     if (!sesion) {
       nuevos.nombres = f.nombres.trim() ? undefined : 'Escribe tu nombre.';
       nuevos.correo = !f.correo.trim() || correoValido(f.correo) ? undefined : 'Escribe un correo válido.';
-      nuevos.telefono = !tel || /^\+?\d{7,15}$/.test(tel) ? undefined : 'Escribe un teléfono válido (solo números).';
+      nuevos.telefono = !tel || telefonoValido(tel) ? undefined : 'Escribe un teléfono válido (solo números).';
       nuevos.contacto = f.correo.trim() || tel ? undefined : 'Déjanos un correo o un teléfono para avisarte.';
       nuevos.acepta = acepta ? undefined : 'Debes autorizar el tratamiento de tus datos.';
     }

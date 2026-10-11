@@ -1,6 +1,6 @@
-import { motion, useReducedMotion, useSpring, useTransform, type Variants } from 'framer-motion';
+import { motion, useInView, useReducedMotion, useSpring, useTransform, type Variants } from 'framer-motion';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
-import { useMemo, type PointerEvent } from 'react';
+import { useMemo, useRef, type PointerEvent } from 'react';
 import { Link } from 'react-router';
 import { cifras } from '../../datos/contenido';
 import { Pendiente } from '../Basicos';
@@ -52,6 +52,9 @@ function Particulas() {
 
 export function Hero() {
   const reducido = useReducedMotion();
+  // Fuera de pantalla se pausan las animaciones CSS del hero (partículas, pulsos, halo, anillos, nodos).
+  const seccion = useRef<HTMLElement>(null);
+  const enPantalla = useInView(seccion);
   // Parallax con el mouse: -0.5 … 0.5 en cada eje, suavizado con resorte.
   const mx = useSpring(0, { stiffness: 60, damping: 18 });
   const my = useSpring(0, { stiffness: 60, damping: 18 });
@@ -71,9 +74,10 @@ export function Hero() {
 
   return (
     <section
+      ref={seccion}
       onPointerMove={mover}
       aria-labelledby="titulo-hero"
-      className="relative isolate flex min-h-svh items-center overflow-hidden bg-[radial-gradient(ellipse_at_70%_40%,#0E4E7A55_0%,transparent_55%),linear-gradient(180deg,#04203F_0%,#011631_70%)] pt-28 pb-24 lg:pt-32"
+      className={`relative isolate flex min-h-svh items-center ${enPantalla ? '' : 'pausado'} overflow-hidden bg-[radial-gradient(ellipse_at_70%_40%,#0E4E7A55_0%,transparent_55%),linear-gradient(180deg,#04203F_0%,#011631_70%)] pt-28 pb-24 lg:pt-32`}
     >
       {/* Fondo: diagonales, rejilla y partículas con parallax */}
       <div aria-hidden className="fondo-diagonales absolute inset-0 -z-10" />
@@ -145,34 +149,18 @@ export function Hero() {
 
         {/* Arte: cubo con circuitos */}
         <motion.div style={{ x: cuboX, y: cuboY }} className="relative mx-auto aspect-square w-full max-w-[min(88vw,540px)] [container-type:inline-size]">
-          {/* Halo cian pulsante */}
-          <motion.div
-            aria-hidden
-            className="absolute inset-[18%] rounded-full bg-[radial-gradient(circle,#08C6C4_0%,#0F6B92_45%,transparent_70%)] blur-2xl"
-            initial={{ opacity: 0, scale: 0.6 }}
-            animate={reducido ? { opacity: 0.45, scale: 1 } : { opacity: [0.35, 0.65, 0.35], scale: [0.92, 1.08, 0.92] }}
-            transition={reducido ? { duration: 0.6 } : { duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-          />
+          {/* Halo cian pulsante (entra con Framer; el latido continuo es CSS para poder pausarlo) */}
+          <motion.div aria-hidden className="absolute inset-[18%]" initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }}>
+            <div className="halo-pulso h-full w-full rounded-full bg-[radial-gradient(circle,#08C6C4_0%,#0F6B92_45%,transparent_70%)] blur-2xl" />
+          </motion.div>
           {/* Anillos orbitales */}
-          <motion.svg
-            aria-hidden
-            viewBox="0 0 100 100"
-            className="absolute inset-[6%] opacity-60"
-            animate={reducido ? undefined : { rotate: 360 }}
-            transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-          >
+          <svg aria-hidden viewBox="0 0 100 100" className="giro-lento absolute inset-[6%] opacity-60">
             <circle cx="50" cy="50" r="49" fill="none" stroke="#08C6C4" strokeOpacity="0.35" strokeWidth="0.25" strokeDasharray="1 2.5" />
             <circle cx="50" cy="1" r="0.9" fill="#22E3E0" />
-          </motion.svg>
-          <motion.svg
-            aria-hidden
-            viewBox="0 0 100 100"
-            className="absolute inset-[16%] opacity-50"
-            animate={reducido ? undefined : { rotate: -360 }}
-            transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-          >
+          </svg>
+          <svg aria-hidden viewBox="0 0 100 100" className="giro-inverso absolute inset-[16%] opacity-50">
             <circle cx="50" cy="50" r="49" fill="none" stroke="#0F6B92" strokeWidth="0.35" strokeDasharray="12 6" />
-          </motion.svg>
+          </svg>
           {/* Pistas de circuito alrededor del cubo */}
           <div className="absolute inset-0">
             <CircuitoExterno />

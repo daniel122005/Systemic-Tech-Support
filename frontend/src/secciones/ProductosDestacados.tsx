@@ -10,7 +10,7 @@ import { api, API_URL, ErrorApi, type Producto } from '../lib/api';
 import { formatoPrecio } from '../lib/formato';
 
 // Con pocos productos la grilla no deja columnas vacías.
-const columnas: Record<number, string> = { 1: 'max-w-sm', 2: 'max-w-3xl', 3: 'lg:grid-cols-3', 4: 'lg:grid-cols-4' };
+const columnas: Record<number, string> = { 1: 'max-w-sm sm:grid-cols-1', 2: 'max-w-3xl', 3: 'lg:grid-cols-3', 4: 'lg:grid-cols-4' };
 
 type Estado = { tipo: 'cargando' } | { tipo: 'error'; mensaje: string } | { tipo: 'listo'; productos: Producto[] };
 
@@ -105,7 +105,7 @@ export function ProductosDestacados() {
               <p className="text-gris">{estado.mensaje}</p>
               {import.meta.env.DEV && (
                 <p className="mt-2 font-mono text-xs text-amber-300/80">
-                  (Desarrollo) ¿Está encendido el backend en {API_URL}? → cd systemic-backend · npm run dev
+                  (Desarrollo) ¿Está encendido el backend en {API_URL}? → cd backend · npm run dev
                 </p>
               )}
               <button type="button" onClick={() => setIntento((n) => n + 1)} className="btn-secundario mt-5">

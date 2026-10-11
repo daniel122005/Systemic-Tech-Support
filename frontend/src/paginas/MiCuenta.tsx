@@ -6,8 +6,9 @@ import { useCallback, useEffect, useState, type ChangeEvent, type FormEvent } fr
 import { useSearchParams } from 'react-router';
 import { useSesion } from '../auth/Sesion';
 import { Escalonado, varianteHijo } from '../components/Aparecer';
-import { Aviso, BotonEnviar, Campo, correoValido } from '../components/Formulario';
+import { Aviso, BotonEnviar, Campo, correoValido, limpiarTelefono, telefonoValido } from '../components/Formulario';
 import { api, ErrorApi, type Perfil } from '../lib/api';
+import { supabase } from '../lib/supabase';
 
 const secciones = [
   { icono: Package, titulo: 'Mis pedidos', texto: 'Estado e historial de tus compras' },
@@ -33,10 +34,11 @@ function FormularioPerfil({ perfil, token, alGuardar }: { perfil: Perfil; token:
 
   async function guardar(e: FormEvent) {
     e.preventDefault();
-    const tel = f.telefono.replace(/[\s-]/g, '');
+    const tel = limpiarTelefono(f.telefono);
+    const sinContacto = !tel && !f.correo_contacto.trim();
     const nuevos = {
       nombres: f.nombres.trim() ? undefined : 'Escribe tu nombre.',
-      telefono: !tel || /^\+?\d{7,15}$/.test(tel) ? undefined : 'Escribe un teléfono válido.',
+      telefono: sinContacto ? 'Deja al menos un teléfono o un correo de contacto.' : !tel || telefonoValido(tel) ? undefined : 'Escribe un teléfono válido.',
       correo_contacto: !f.correo_contacto.trim() || correoValido(f.correo_contacto) ? undefined : 'Escribe un correo válido.',
     };
     setErrores(nuevos);
@@ -52,8 +54,9 @@ function FormularioPerfil({ perfil, token, alGuardar }: { perfil: Perfil; token:
       });
       alGuardar(actualizado);
       setAviso({ tipo: 'exito', texto: 'Tus datos se guardaron.' });
+      // El encabezado muestra el nombre desde la sesión de Supabase: se sincroniza para que no quede el anterior.
+      await supabase?.auth.updateUser({ data: { nombres: actualizado.nombres } }).catch(() => undefined);
     } catch (err) {
-      // Los mensajes de la base ya están escritos para el usuario (ej. debe quedar al menos un medio de contacto).
       setAviso({ tipo: 'error', texto: err instanceof ErrorApi ? err.message : 'No pudimos guardar los cambios.' });
     } finally {
       setCargando(false);
@@ -88,7 +91,7 @@ function FormularioPerfil({ perfil, token, alGuardar }: { perfil: Perfil; token:
 }
 
 export function MiCuenta() {
-  const { sesion, cerrarSesion } = useSesion();
+  const { sesion, nombre, cerrarSesion } = useSesion();
   const [params] = useSearchParams();
   const [estado, setEstado] = useState<Estado>({ tipo: 'cargando' });
   const token = sesion?.access_token ?? '';
@@ -125,7 +128,7 @@ export function MiCuenta() {
           <div>
             <p className="etiqueta-tecnica text-cian">{'// '}Mi cuenta</p>
             <h1 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
-              Hola, <span className="text-cian">{perfil?.nombres ?? '…'}</span>
+              Hola, <span className="text-cian">{perfil?.nombres ?? nombre ?? ''}</span>
             </h1>
             <p className="mt-2 text-gris">{sesion?.user.email}</p>
             {perfil && perfil.roles.length > 0 && (

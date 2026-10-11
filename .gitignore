@@ -7,6 +7,10 @@
 node_modules/
 dist/
 
+# Registros (excepto la evidencia de pruebas de la base)
+*.log
+!database/evidencia/*.log
+
 # Sistema / editor
 .DS_Store
 Thumbs.db
