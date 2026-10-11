@@ -1,0 +1,17 @@
+ok 20261009000100_roles_systemic.sql
+ok 20261009000200_estructura.sql
+ok 20261009000300_logica.sql
+ok 20261009000400_seguridad_vistas.sql
+ok 20261009000500_integracion_supabase_auth.sql
+   psql:/home/claude/entrega/supabase/migrations/20261009000500_integracion_supabase_auth.sql:180: NOTICE:  Rutinas con EXECUTE para PUBLIC (no invocables desde la API sin USAGE): inventario.consultar_disponibilidad(bigint), comercial.consultar_carrito(bigint,text), servicios.horarios_disponibles()
+ok 20261009000600_datos_base.sql
+ok seed.sql
+                                  resultado                               
+   -----------------------------------------------------------------------
+    Datos ficticios insertados y comprobaciones de demostración superadas
+   (1 row)
+   
+                                           resultado                                         
+   ------------------------------------------------------------------------------------------
+    Complemento de datos ficticios cargado: imagen, adjunto, comprobante, entrega e invitado
+   (1 row)

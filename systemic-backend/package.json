@@ -1,0 +1,23 @@
+{
+  "name": "systemic-backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Backend de la plataforma Systemic Tech & Support (Node.js + Express + Supabase)",
+  "type": "module",
+  "main": "src/server.js",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "verificar": "node scripts/verificar-conexion.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.0",
+    "express": "^5.1.0",
+    "helmet": "^8.0.0",
+    "postgres": "^3.4.5"
+  }
+}

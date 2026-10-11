@@ -1,0 +1,94 @@
+PART word/document.xml
+Requerimientos :- Acceso y usuarios
+RF-01 — Acceso público
+El sistema deberá permitir a los usuarios acceder a la información pública de la plataforma sin necesidad de crear una cuenta.
+RF-02 — Registro de usuarios
+El sistema deberá permitir a los usuarios crear una cuenta de manera opcional para acceder a funcionalidades personalizadas.
+RF-03 — Inicio de sesión
+El sistema deberá permitir a los usuarios registrados iniciar y cerrar sesión mediante sus credenciales.
+RF-04 — Recuperación de contraseña
+El sistema deberá permitir a los usuarios registrados recuperar o restablecer su contraseña.
+RF-05 — Gestión del perfil
+El sistema deberá permitir a los usuarios registrados consultar y actualizar su información personal.
+RF-06 — Control de acceso según usuario
+El sistema deberá diferenciar las funcionalidades disponibles para usuarios no registrados y usuarios registrados.
+- Productos y ventas
+RF-07 — Consulta de productos
+El sistema deberá permitir consultar los productos disponibles, incluyendo nombre, descripción, precio, imágenes y disponibilidad.
+RF-08 — Búsqueda y filtrado de productos
+El sistema deberá permitir buscar y filtrar productos por diferentes criterios.
+RF-09 — Carrito de compras
+El sistema deberá permitir a los usuarios agregar, modificar y eliminar productos de un carrito de compras.
+RF-10 — Realización de compras
+El sistema deberá permitir a los usuarios realizar compras de productos disponibles.
+RF-11 — Consulta de pedidos
+El sistema deberá permitir a los clientes registrados consultar el estado de sus pedidos.
+RF-12 — Historial de compras
+El sistema deberá permitir a los clientes registrados consultar el historial de compras realizadas.
+- Servicios técnicos
+RF-13 — Consulta de servicios
+El sistema deberá permitir consultar los servicios técnicos ofrecidos por la empresa.
+RF-14 — Solicitud de reparación
+El sistema deberá permitir solicitar una reparación proporcionando la información necesaria sobre el equipo y el problema presentado.
+RF-15 — Solicitud de mantenimiento
+El sistema deberá permitir solicitar servicios de mantenimiento técnico.
+RF-16 — Agendamiento de servicios
+El sistema deberá permitir solicitar o seleccionar una fecha disponible para la prestación de un servicio.
+RF-17 — Consulta del estado de reparación
+El sistema deberá permitir consultar el estado de una reparación.
+RF-18 — Historial de servicios
+El sistema deberá permitir a los clientes registrados consultar el historial de reparaciones y mantenimientos realizados.
+- Cotizaciones
+RF-19 — Solicitud de cotización
+El sistema deberá permitir a cualquier usuario solicitar una cotización de productos o servicios sin necesidad de crear una cuenta.
+RF-20 — Consulta de cotizaciones
+El sistema deberá permitir a los clientes registrados consultar las cotizaciones asociadas a su cuenta.
+RF-21 — Gestión de cotizaciones
+El sistema deberá permitir al cliente aceptar o rechazar una cotización recibida.
+Desarrollo de software
+RF-22 — Solicitud de desarrollo de software
+El sistema deberá permitir a los usuarios solicitar el desarrollo de un proyecto de software proporcionando información sobre sus necesidades.
+RF-23 — Seguimiento de proyectos
+El sistema deberá permitir a los clientes registrados consultar el estado y avance de sus proyectos de software.
+RF-24 — Consulta de información del proyecto
+El sistema deberá permitir consultar información relevante del proyecto, como descripción, etapas, avances y estado actual.
+- Comunicación
+RF-25 — Contacto con la empresa
+El sistema deberá permitir a los usuarios comunicarse con Systemic Tech & Support mediante los canales de contacto disponibles.
+RF-26 — Mensajería
+El sistema deberá permitir establecer comunicación entre el cliente y el personal encargado de atender sus solicitudes.
+RF-27 — Carga de archivos
+El sistema deberá permitir adjuntar archivos relacionados con solicitudes de servicios, reparaciones, cotizaciones o proyectos.
+RF-28 — Notificaciones
+El sistema deberá notificar a los clientes registrados sobre cambios importantes en sus pedidos, reparaciones, cotizaciones o proyectos.
+- Facturación y valoración
+RF-29 — Consulta de facturas
+El sistema deberá permitir a los clientes registrados consultar sus facturas y comprobantes.
+RF-30 — Calificación de servicios
+El sistema deberá permitir a los clientes calificar los servicios recibidos y registrar comentarios.
+RF-31 — Historial general del cliente
+El sistema deberá permitir a los clientes registrados consultar un historial centralizado de sus compras, servicios, cotizaciones y proyectos.
+-  Administración
+Panel administrativo
+RF-32 — Gestión de usuarios
+El sistema deberá permitir al personal autorizado administrar las cuentas de los usuarios.
+RF-33 — Gestión de productos
+El sistema deberá permitir administrar productos, precios, categorías, imágenes y disponibilidad.
+RF-34 — Gestión de inventario
+El sistema deberá permitir registrar entradas, salidas y existencias de productos.
+RF-35 — Gestión de pedidos
+El sistema deberá permitir administrar y actualizar el estado de los pedidos.
+RF-36 — Gestión de reparaciones
+El sistema deberá permitir registrar, asignar, actualizar y finalizar reparaciones.
+RF-37 — Gestión de mantenimientos
+El sistema deberá permitir administrar las solicitudes de mantenimiento.
+RF-38 — Gestión de cotizaciones
+El sistema deberá permitir crear, modificar, enviar y gestionar cotizaciones.
+RF-39 — Gestión de proyectos de software
+El sistema deberá permitir crear y administrar proyectos de desarrollo de software, asignar responsables y actualizar sus estados.
+RF-40 — Gestión de clientes
+El sistema deberá permitir consultar y administrar la información de los clientes registrados.
+RF-41 — Gestión de solicitudes
+El sistema deberá permitir al personal visualizar y gestionar las solicitudes realizadas por los usuarios.
+RF-42 — Gestión de roles y permisos
+El sistema deberá permitir administrar diferentes roles y permisos de acceso.

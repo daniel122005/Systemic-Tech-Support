@@ -1,0 +1,15 @@
+NOTICE:  Verificación Supabase superada: V01-V17 e invariantes comercial/comunicación
+DO
+     elemento     |         valor         
+------------------+-----------------------
+ tablas           | 62
+ politicas_rls    | 62
+ rutinas          | 138
+ roles_negocio    | 5
+ permisos         | 58
+ cuentas_supabase | 0
+ personas         | 3
+ version          | 17.6
+ resultado        | VERIFICACION SUPERADA
+(9 rows)
+

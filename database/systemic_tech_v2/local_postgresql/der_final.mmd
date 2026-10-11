@@ -1,0 +1,865 @@
+erDiagram
+  identidad_acceso_invitado {
+    bigint id PK
+    bigint persona_id FK
+    bytea token_hash UK
+    text medio_verificacion
+    text destino_verificado
+    timestamptz verificado_en
+    timestamptz emitido_en
+    timestamptz vence_en
+    timestamptz revocado_en
+    bigint version_cotizacion_id FK
+    bigint pedido_id FK
+    bigint solicitud_servicio_id FK
+    bigint orden_servicio_id FK
+    bigint solicitud_cotizacion_id FK
+    bigint cotizacion_id FK
+    bigint solicitud_desarrollo_id FK
+    bigint proyecto_id FK
+    bigint factura_id FK
+    bigint conversacion_id FK
+  }
+  identidad_acceso_invitado_permiso {
+    bigint acceso_invitado_id PK,FK
+    bigint permiso_id PK,FK
+  }
+  identidad_cliente {
+    bigint id PK
+    bigint persona_id FK,UK
+    text codigo UK
+    text observaciones
+    boolean activo
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  identidad_credencial {
+    bigint usuario_id PK,FK
+    text password_hash
+    timestamptz cambiada_en
+  }
+  identidad_empleado {
+    bigint id PK
+    bigint persona_id FK,UK
+    text codigo UK
+    text cargo
+    date fecha_vinculacion
+    boolean activo
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  identidad_permiso {
+    bigint id PK
+    text codigo UK
+    text recurso
+    text accion
+    text descripcion
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  identidad_persona {
+    bigint id PK
+    text nombres
+    text apellidos
+    text correo_contacto
+    text telefono
+    boolean activo
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  identidad_recuperacion_acceso {
+    bigint id PK
+    bigint usuario_id FK
+    bytea token_hash UK
+    timestamptz solicitada_en
+    timestamptz vence_en
+    timestamptz consumida_en
+  }
+  identidad_rol {
+    bigint id PK
+    text codigo UK
+    text nombre
+    text descripcion
+    boolean activo
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  identidad_rol_permiso {
+    bigint rol_id PK,FK
+    bigint permiso_id PK,FK
+    timestamptz concedido_en
+    bigint actor_persona_id FK
+    text actor_sistema
+  }
+  identidad_sesion {
+    bigint id PK
+    bigint usuario_id FK
+    bytea refresh_hash UK
+    timestamptz inicia_en
+    timestamptz vence_en
+    timestamptz revocada_en
+  }
+  identidad_usuario {
+    bigint id PK
+    bigint persona_id FK,UK
+    text correo_acceso UK
+    text estado
+    text origen_auth
+    text emisor_externo
+    text sujeto_externo
+    timestamptz verificado_en
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  identidad_usuario_rol {
+    bigint id PK
+    bigint usuario_id FK
+    bigint rol_id FK
+    timestamptz inicia_en
+    timestamptz termina_en
+    bigint actor_persona_id FK
+    text actor_sistema
+  }
+  inventario_categoria {
+    bigint id PK
+    text nombre UK
+    text descripcion
+    boolean activa
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  inventario_inventario {
+    bigint producto_id PK,FK
+    numeric_14_3 saldo
+    timestamptz updated_at
+  }
+  inventario_movimiento_inventario {
+    bigint id PK
+    bigint producto_id FK
+    text tipo
+    numeric_14_3 delta
+    text motivo
+    bigint detalle_pedido_id FK
+    bigint compensa_movimiento_id FK
+    uuid operacion_id UK
+    timestamptz registrado_en
+    bigint actor_persona_id FK
+    text actor_sistema
+  }
+  inventario_producto {
+    bigint id PK
+    text sku UK
+    bigint categoria_id FK
+    text nombre
+    text descripcion
+    text unidad
+    numeric_18_4 precio_vigente
+    text moneda
+    boolean publicado
+    boolean activo
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  inventario_producto_imagen {
+    bigint id PK
+    bigint producto_id FK
+    bigint archivo_id FK
+    integer orden
+    text texto_alternativo
+    boolean principal
+  }
+  inventario_reserva_inventario {
+    bigint detalle_pedido_id PK,FK
+    text estado
+    timestamptz creada_en
+    timestamptz cerrada_en
+    text motivo_liberacion
+  }
+  comercial_carrito {
+    bigint id PK
+    bigint cliente_id FK
+    bytea sesion_anonima_hash UK
+    text estado
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  comercial_comprobante_factura {
+    bigint id PK
+    bigint factura_id FK
+    bigint archivo_id FK
+    text clase_documento
+    text descripcion
+    timestamptz incorporado_en
+  }
+  comercial_cotizacion {
+    bigint id PK
+    bigint numero UK
+    bigint solicitud_cotizacion_id FK,UK
+    bigint persona_directa_id FK
+    text estado
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  comercial_detalle_carrito {
+    bigint carrito_id PK,FK
+    bigint producto_id PK,FK
+    numeric_14_3 cantidad
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  comercial_detalle_cotizacion {
+    bigint id PK
+    bigint version_cotizacion_id FK
+    integer numero_linea
+    text clase
+    bigint producto_id FK
+    bigint servicio_ofrecido_id FK
+    text descripcion
+    numeric_14_3 cantidad
+    text unidad
+    numeric_18_4 precio_unitario
+    numeric_18_2 descuento_importe
+    numeric_9_6 tasa_impuesto
+    numeric_18_2 subtotal
+    numeric_18_2 impuesto_importe
+    numeric_18_2 total
+  }
+  comercial_detalle_factura {
+    bigint id PK
+    bigint factura_id FK
+    integer numero_linea
+    bigint detalle_pedido_id FK
+    bigint detalle_cotizacion_id FK
+    text descripcion
+    numeric_14_3 cantidad
+    text unidad
+    numeric_18_4 precio_unitario
+    numeric_18_2 descuento_importe
+    numeric_9_6 tasa_impuesto
+    numeric_18_2 ajuste_base
+    numeric_18_2 ajuste_impuesto
+    numeric_18_2 subtotal
+    numeric_18_2 impuesto_importe
+    numeric_18_2 total
+  }
+  comercial_detalle_pedido {
+    bigint id PK
+    bigint pedido_id FK
+    integer numero_linea
+    bigint producto_id FK
+    bigint detalle_cotizacion_id FK
+    text descripcion
+    numeric_14_3 cantidad
+    text unidad
+    numeric_18_4 precio_unitario
+    numeric_18_2 descuento_importe
+    numeric_9_6 tasa_impuesto
+    numeric_18_2 ajuste_base
+    numeric_18_2 ajuste_impuesto
+    numeric_18_2 subtotal
+    numeric_18_2 impuesto_importe
+    numeric_18_2 total
+  }
+  comercial_factura {
+    bigint id PK
+    bigint numero UK
+    bigint pedido_id FK
+    bigint orden_servicio_id FK
+    bigint proyecto_id FK
+    text estado
+    text moneda
+    text receptor_nombre
+    text receptor_identificacion
+    text receptor_correo
+    text receptor_telefono
+    text receptor_direccion
+    timestamptz emitida_en
+    timestamptz anulada_en
+    text motivo_anulacion
+    uuid operacion_emision_id UK
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  comercial_historial_cotizacion {
+    bigint id PK
+    bigint cotizacion_id FK
+    integer numero_evento
+    text estado_anterior
+    text estado_nuevo
+    text motivo
+    uuid correlacion_id
+    timestamptz ocurrido_en
+    bigint actor_persona_id FK
+    text actor_sistema
+    bigint version_cotizacion_id FK
+    text estado_version_anterior
+    text estado_version_nuevo
+  }
+  comercial_historial_factura {
+    bigint id PK
+    bigint factura_id FK
+    integer numero_evento
+    text estado_anterior
+    text estado_nuevo
+    text motivo
+    uuid correlacion_id
+    timestamptz ocurrido_en
+    bigint actor_persona_id FK
+    text actor_sistema
+  }
+  comercial_historial_pedido {
+    bigint id PK
+    bigint pedido_id FK
+    integer numero_evento
+    text estado_anterior
+    text estado_nuevo
+    text motivo
+    uuid correlacion_id
+    timestamptz ocurrido_en
+    bigint actor_persona_id FK
+    text actor_sistema
+  }
+  comercial_historial_solicitud_cotizacion {
+    bigint id PK
+    bigint solicitud_cotizacion_id FK
+    integer numero_evento
+    text estado_anterior
+    text estado_nuevo
+    text motivo
+    uuid correlacion_id
+    timestamptz ocurrido_en
+    bigint actor_persona_id FK
+    text actor_sistema
+  }
+  comercial_pedido {
+    bigint id PK
+    bigint numero UK
+    bigint cliente_id FK
+    bigint carrito_id FK,UK
+    bigint version_cotizacion_id FK
+    text estado
+    text moneda
+    text receptor_nombre
+    text receptor_correo
+    text receptor_telefono
+    timestamptz confirmado_en
+    timestamptz completado_en
+    timestamptz cancelado_en
+    text motivo_cancelacion
+    uuid operacion_confirmacion_id UK
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  comercial_solicitud_cotizacion {
+    bigint id PK
+    text codigo UK
+    bigint persona_id FK
+    text necesidad
+    text contacto_nombre
+    text contacto_correo
+    text contacto_telefono
+    text estado
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  comercial_version_cotizacion {
+    bigint id PK
+    bigint cotizacion_id FK
+    integer numero_version
+    text estado
+    text moneda
+    text condiciones
+    text destinatario_nombre
+    text destinatario_correo
+    text destinatario_telefono
+    timestamptz enviada_en
+    timestamptz vigente_hasta
+    timestamptz respondida_en
+    bigint respondida_por_persona_id FK
+    text evidencia_respuesta
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  servicios_asignacion_servicio {
+    bigint id PK
+    bigint orden_servicio_id FK
+    bigint empleado_id FK
+    text funcion
+    boolean es_principal
+    timestamptz inicia_en
+    timestamptz termina_en
+    bigint actor_persona_id FK
+    text actor_sistema
+  }
+  servicios_calificacion_servicio {
+    bigint orden_servicio_id PK,FK
+    bigint autor_persona_id FK
+    smallint puntuacion
+    text comentario
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  servicios_cita_servicio {
+    bigint id PK
+    bigint solicitud_servicio_id FK
+    bigint tecnico_id FK
+    timestamptz inicio
+    timestamptz fin
+    text estado
+    text modalidad_atencion
+    text lugar
+    text motivo_cancelacion
+    bigint sustituye_cita_id FK,UK
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  servicios_disponibilidad_tecnico {
+    bigint id PK
+    bigint empleado_id FK
+    timestamptz inicio
+    timestamptz fin
+    boolean habilitada
+    text observaciones
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  servicios_equipo_cliente {
+    bigint id PK
+    bigint cliente_id FK
+    text tipo
+    text marca
+    text modelo
+    text numero_serie
+    text descripcion
+    boolean activo
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  servicios_historial_servicio {
+    bigint id PK
+    bigint orden_servicio_id FK
+    integer numero_evento
+    text estado_anterior
+    text estado_nuevo
+    text motivo
+    uuid correlacion_id
+    timestamptz ocurrido_en
+    bigint actor_persona_id FK
+    text actor_sistema
+  }
+  servicios_historial_solicitud_servicio {
+    bigint id PK
+    bigint solicitud_servicio_id FK
+    integer numero_evento
+    text estado_anterior
+    text estado_nuevo
+    text motivo
+    uuid correlacion_id
+    timestamptz ocurrido_en
+    bigint actor_persona_id FK
+    text actor_sistema
+  }
+  servicios_mantenimiento {
+    bigint orden_servicio_id PK,FK
+    text tipo_mantenimiento
+    text actividades_realizadas
+    text hallazgos
+    text recomendaciones
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  servicios_orden_servicio {
+    bigint id PK
+    text codigo UK
+    bigint solicitud_servicio_id FK,UK
+    text estado
+    timestamptz iniciada_en
+    timestamptz finalizada_en
+    text resumen_trabajo
+    text observaciones_cierre
+    bigint version_cotizacion_id FK
+    numeric_18_2 importe_base_autorizado
+    numeric_9_6 tasa_impuesto_autorizada
+    text moneda
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  servicios_reparacion {
+    bigint orden_servicio_id PK,FK
+    text diagnostico
+    text falla_determinada
+    text solucion
+    text resultado_pruebas
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  servicios_servicio_ofrecido {
+    bigint id PK
+    text codigo UK
+    text nombre
+    text descripcion
+    text modalidad
+    integer duracion_estimada_min
+    numeric_18_2 precio_referencia
+    text moneda
+    boolean publicado
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  servicios_solicitud_servicio {
+    bigint id PK
+    text codigo UK
+    bigint cliente_id FK
+    bigint servicio_ofrecido_id FK
+    bigint equipo_cliente_id FK
+    text necesidad
+    text alcance
+    timestamptz fecha_preferida
+    text estado
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  proyectos_avance_proyecto {
+    bigint id PK
+    bigint etapa_proyecto_id FK
+    bigint miembro_proyecto_id FK
+    numeric_5_2 porcentaje
+    text descripcion
+    text observaciones
+    timestamptz registrado_en
+  }
+  proyectos_etapa_proyecto {
+    bigint id PK
+    bigint proyecto_id FK
+    text nombre
+    text descripcion
+    integer orden
+    numeric_9_4 peso
+    date inicio_planificado
+    date fin_planificado
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  proyectos_historial_proyecto {
+    bigint id PK
+    bigint proyecto_id FK
+    integer numero_evento
+    text estado_anterior
+    text estado_nuevo
+    text motivo
+    uuid correlacion_id
+    timestamptz ocurrido_en
+    bigint actor_persona_id FK
+    text actor_sistema
+  }
+  proyectos_historial_solicitud_desarrollo {
+    bigint id PK
+    bigint solicitud_desarrollo_id FK
+    integer numero_evento
+    text estado_anterior
+    text estado_nuevo
+    text motivo
+    uuid correlacion_id
+    timestamptz ocurrido_en
+    bigint actor_persona_id FK
+    text actor_sistema
+  }
+  proyectos_miembro_proyecto {
+    bigint id PK
+    bigint proyecto_id FK
+    bigint empleado_id FK
+    text funcion
+    boolean es_principal
+    timestamptz inicia_en
+    timestamptz termina_en
+    bigint actor_persona_id FK
+    text actor_sistema
+  }
+  proyectos_proyecto {
+    bigint id PK
+    text codigo UK
+    bigint solicitud_desarrollo_id FK,UK
+    text nombre
+    text descripcion
+    text alcance_acordado
+    text estado
+    date inicio_planificado
+    date fin_planificado
+    timestamptz iniciado_en
+    timestamptz finalizado_en
+    bigint version_cotizacion_id FK
+    numeric_18_2 importe_base_autorizado
+    numeric_9_6 tasa_impuesto_autorizada
+    text moneda
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  proyectos_solicitud_desarrollo {
+    bigint id PK
+    text codigo UK
+    bigint cliente_id FK
+    text necesidades
+    text objetivos
+    text alcance_deseado
+    numeric_18_2 presupuesto_orientativo
+    text moneda_orientativa
+    date fecha_deseada
+    text estado
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  comunicacion_adjunto {
+    bigint id PK
+    bigint archivo_id FK
+    bigint mensaje_id FK
+    bigint pedido_id FK
+    bigint solicitud_servicio_id FK
+    bigint orden_servicio_id FK
+    bigint solicitud_cotizacion_id FK
+    bigint cotizacion_id FK
+    bigint solicitud_desarrollo_id FK
+    bigint proyecto_id FK
+    bigint factura_id FK
+    text descripcion
+    text visibilidad
+    timestamptz adjuntado_en
+  }
+  comunicacion_archivo {
+    bigint id PK
+    text nombre_original
+    text almacen
+    text clave_objeto
+    text tipo_contenido
+    bigint tamano_bytes
+    bytea sha256
+    text estado
+    text visibilidad
+    bigint actor_persona_id FK
+    text actor_sistema
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  comunicacion_conversacion {
+    bigint id PK
+    text asunto
+    text estado
+    bigint pedido_id FK
+    bigint solicitud_servicio_id FK
+    bigint orden_servicio_id FK
+    bigint solicitud_cotizacion_id FK
+    bigint cotizacion_id FK
+    bigint solicitud_desarrollo_id FK
+    bigint proyecto_id FK
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  comunicacion_entrega_notificacion {
+    bigint id PK
+    bigint notificacion_id FK
+    text canal
+    text destino
+    integer numero_intento
+    uuid idempotencia_id UK
+    text estado
+    text proveedor
+    text referencia_proveedor
+    timestamptz iniciada_en
+    timestamptz finalizada_en
+    timestamptz entregada_en
+    text error
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  comunicacion_lectura_mensaje {
+    bigint mensaje_id PK,FK
+    bigint participante_id PK,FK
+    timestamptz leido_en
+  }
+  comunicacion_mensaje {
+    bigint id PK
+    bigint autor_participante_id FK
+    text contenido
+    timestamptz enviado_en
+    timestamptz editado_en
+    boolean retirado
+    text motivo_retiro
+  }
+  comunicacion_notificacion {
+    bigint id PK
+    bigint destinatario_usuario_id FK
+    text tipo
+    text titulo
+    text contenido
+    uuid evento_id
+    bigint version_cotizacion_id FK
+    bigint pedido_id FK
+    bigint solicitud_servicio_id FK
+    bigint orden_servicio_id FK
+    bigint solicitud_cotizacion_id FK
+    bigint cotizacion_id FK
+    bigint solicitud_desarrollo_id FK
+    bigint proyecto_id FK
+    bigint factura_id FK
+    timestamptz created_at
+    timestamptz leida_en
+  }
+  comunicacion_participante_conversacion {
+    bigint id PK
+    bigint conversacion_id FK
+    bigint persona_id FK
+    text funcion
+    timestamptz incorporado_en
+    timestamptz salio_en
+  }
+  auditoria_evento_auditoria {
+    bigint id PK
+    text operacion
+    text esquema_objeto
+    text tabla_objeto
+    jsonb clave_registro
+    jsonb valores_anteriores
+    jsonb valores_nuevos
+    text usuario_conexion
+    text rol_efectivo
+    uuid correlacion_id
+    timestamptz ocurrido_en
+    bigint actor_persona_id FK
+    text actor_sistema
+  }
+  identidad_persona ||--o{ identidad_acceso_invitado : "persona_id"
+  comercial_version_cotizacion |o--o{ identidad_acceso_invitado : "version_cotizacion_id"
+  comercial_pedido |o--o{ identidad_acceso_invitado : "pedido_id"
+  servicios_solicitud_servicio |o--o{ identidad_acceso_invitado : "solicitud_servicio_id"
+  servicios_orden_servicio |o--o{ identidad_acceso_invitado : "orden_servicio_id"
+  comercial_solicitud_cotizacion |o--o{ identidad_acceso_invitado : "solicitud_cotizacion_id"
+  comercial_cotizacion |o--o{ identidad_acceso_invitado : "cotizacion_id"
+  proyectos_solicitud_desarrollo |o--o{ identidad_acceso_invitado : "solicitud_desarrollo_id"
+  proyectos_proyecto |o--o{ identidad_acceso_invitado : "proyecto_id"
+  comercial_factura |o--o{ identidad_acceso_invitado : "factura_id"
+  comunicacion_conversacion |o--o{ identidad_acceso_invitado : "conversacion_id"
+  identidad_acceso_invitado ||--o{ identidad_acceso_invitado_permiso : "acceso_invitado_id"
+  identidad_permiso ||--o{ identidad_acceso_invitado_permiso : "permiso_id"
+  identidad_persona ||--o| identidad_cliente : "persona_id"
+  identidad_usuario ||--o| identidad_credencial : "usuario_id"
+  identidad_persona ||--o| identidad_empleado : "persona_id"
+  identidad_usuario ||--o{ identidad_recuperacion_acceso : "usuario_id"
+  identidad_rol ||--o{ identidad_rol_permiso : "rol_id"
+  identidad_permiso ||--o{ identidad_rol_permiso : "permiso_id"
+  identidad_persona |o--o{ identidad_rol_permiso : "actor_persona_id"
+  identidad_usuario ||--o{ identidad_sesion : "usuario_id"
+  identidad_persona ||--o| identidad_usuario : "persona_id"
+  identidad_usuario ||--o{ identidad_usuario_rol : "usuario_id"
+  identidad_rol ||--o{ identidad_usuario_rol : "rol_id"
+  identidad_persona |o--o{ identidad_usuario_rol : "actor_persona_id"
+  inventario_producto ||--o| inventario_inventario : "producto_id"
+  inventario_inventario ||--o{ inventario_movimiento_inventario : "producto_id"
+  comercial_detalle_pedido |o--o{ inventario_movimiento_inventario : "detalle_pedido_id"
+  inventario_movimiento_inventario |o--o{ inventario_movimiento_inventario : "compensa_movimiento_id"
+  identidad_persona |o--o{ inventario_movimiento_inventario : "actor_persona_id"
+  inventario_categoria ||--o{ inventario_producto : "categoria_id"
+  inventario_producto ||--o{ inventario_producto_imagen : "producto_id"
+  comunicacion_archivo ||--o{ inventario_producto_imagen : "archivo_id"
+  comercial_detalle_pedido ||--o| inventario_reserva_inventario : "detalle_pedido_id"
+  identidad_cliente |o--o{ comercial_carrito : "cliente_id"
+  comercial_factura ||--o{ comercial_comprobante_factura : "factura_id"
+  comunicacion_archivo ||--o{ comercial_comprobante_factura : "archivo_id"
+  comercial_solicitud_cotizacion |o--o| comercial_cotizacion : "solicitud_cotizacion_id"
+  identidad_persona |o--o{ comercial_cotizacion : "persona_directa_id"
+  comercial_carrito ||--o{ comercial_detalle_carrito : "carrito_id"
+  inventario_producto ||--o{ comercial_detalle_carrito : "producto_id"
+  comercial_version_cotizacion ||--o{ comercial_detalle_cotizacion : "version_cotizacion_id"
+  inventario_producto |o--o{ comercial_detalle_cotizacion : "producto_id"
+  servicios_servicio_ofrecido |o--o{ comercial_detalle_cotizacion : "servicio_ofrecido_id"
+  comercial_factura ||--o{ comercial_detalle_factura : "factura_id"
+  comercial_detalle_pedido |o--o{ comercial_detalle_factura : "detalle_pedido_id"
+  comercial_detalle_cotizacion |o--o{ comercial_detalle_factura : "detalle_cotizacion_id"
+  comercial_pedido ||--o{ comercial_detalle_pedido : "pedido_id"
+  inventario_producto ||--o{ comercial_detalle_pedido : "producto_id"
+  comercial_detalle_cotizacion |o--o{ comercial_detalle_pedido : "detalle_cotizacion_id"
+  comercial_pedido |o--o{ comercial_factura : "pedido_id"
+  servicios_orden_servicio |o--o{ comercial_factura : "orden_servicio_id"
+  proyectos_proyecto |o--o{ comercial_factura : "proyecto_id"
+  comercial_cotizacion ||--o{ comercial_historial_cotizacion : "cotizacion_id"
+  identidad_persona |o--o{ comercial_historial_cotizacion : "actor_persona_id"
+  comercial_version_cotizacion |o--o{ comercial_historial_cotizacion : "version_cotizacion_id"
+  comercial_factura ||--o{ comercial_historial_factura : "factura_id"
+  identidad_persona |o--o{ comercial_historial_factura : "actor_persona_id"
+  comercial_pedido ||--o{ comercial_historial_pedido : "pedido_id"
+  identidad_persona |o--o{ comercial_historial_pedido : "actor_persona_id"
+  comercial_solicitud_cotizacion ||--o{ comercial_historial_solicitud_cotizacion : "solicitud_cotizacion_id"
+  identidad_persona |o--o{ comercial_historial_solicitud_cotizacion : "actor_persona_id"
+  identidad_cliente ||--o{ comercial_pedido : "cliente_id"
+  comercial_carrito |o--o| comercial_pedido : "carrito_id"
+  comercial_version_cotizacion |o--o{ comercial_pedido : "version_cotizacion_id"
+  identidad_persona ||--o{ comercial_solicitud_cotizacion : "persona_id"
+  comercial_cotizacion ||--o{ comercial_version_cotizacion : "cotizacion_id"
+  identidad_persona |o--o{ comercial_version_cotizacion : "respondida_por_persona_id"
+  servicios_orden_servicio ||--o{ servicios_asignacion_servicio : "orden_servicio_id"
+  identidad_empleado ||--o{ servicios_asignacion_servicio : "empleado_id"
+  identidad_persona |o--o{ servicios_asignacion_servicio : "actor_persona_id"
+  servicios_orden_servicio ||--o| servicios_calificacion_servicio : "orden_servicio_id"
+  identidad_persona ||--o{ servicios_calificacion_servicio : "autor_persona_id"
+  servicios_solicitud_servicio ||--o{ servicios_cita_servicio : "solicitud_servicio_id"
+  identidad_empleado |o--o{ servicios_cita_servicio : "tecnico_id"
+  servicios_cita_servicio |o--o| servicios_cita_servicio : "sustituye_cita_id"
+  identidad_empleado ||--o{ servicios_disponibilidad_tecnico : "empleado_id"
+  identidad_cliente ||--o{ servicios_equipo_cliente : "cliente_id"
+  servicios_orden_servicio ||--o{ servicios_historial_servicio : "orden_servicio_id"
+  identidad_persona |o--o{ servicios_historial_servicio : "actor_persona_id"
+  servicios_solicitud_servicio ||--o{ servicios_historial_solicitud_servicio : "solicitud_servicio_id"
+  identidad_persona |o--o{ servicios_historial_solicitud_servicio : "actor_persona_id"
+  servicios_orden_servicio ||--o| servicios_mantenimiento : "orden_servicio_id"
+  servicios_solicitud_servicio ||--o| servicios_orden_servicio : "solicitud_servicio_id"
+  comercial_version_cotizacion |o--o{ servicios_orden_servicio : "version_cotizacion_id"
+  servicios_orden_servicio ||--o| servicios_reparacion : "orden_servicio_id"
+  identidad_cliente ||--o{ servicios_solicitud_servicio : "cliente_id"
+  servicios_servicio_ofrecido ||--o{ servicios_solicitud_servicio : "servicio_ofrecido_id"
+  servicios_equipo_cliente |o--o{ servicios_solicitud_servicio : "equipo_cliente_id"
+  proyectos_etapa_proyecto ||--o{ proyectos_avance_proyecto : "etapa_proyecto_id"
+  proyectos_miembro_proyecto ||--o{ proyectos_avance_proyecto : "miembro_proyecto_id"
+  proyectos_proyecto ||--o{ proyectos_etapa_proyecto : "proyecto_id"
+  proyectos_proyecto ||--o{ proyectos_historial_proyecto : "proyecto_id"
+  identidad_persona |o--o{ proyectos_historial_proyecto : "actor_persona_id"
+  proyectos_solicitud_desarrollo ||--o{ proyectos_historial_solicitud_desarrollo : "solicitud_desarrollo_id"
+  identidad_persona |o--o{ proyectos_historial_solicitud_desarrollo : "actor_persona_id"
+  proyectos_proyecto ||--o{ proyectos_miembro_proyecto : "proyecto_id"
+  identidad_empleado ||--o{ proyectos_miembro_proyecto : "empleado_id"
+  identidad_persona |o--o{ proyectos_miembro_proyecto : "actor_persona_id"
+  proyectos_solicitud_desarrollo ||--o| proyectos_proyecto : "solicitud_desarrollo_id"
+  comercial_version_cotizacion |o--o{ proyectos_proyecto : "version_cotizacion_id"
+  identidad_cliente ||--o{ proyectos_solicitud_desarrollo : "cliente_id"
+  comunicacion_archivo ||--o{ comunicacion_adjunto : "archivo_id"
+  comunicacion_mensaje |o--o{ comunicacion_adjunto : "mensaje_id"
+  comercial_pedido |o--o{ comunicacion_adjunto : "pedido_id"
+  servicios_solicitud_servicio |o--o{ comunicacion_adjunto : "solicitud_servicio_id"
+  servicios_orden_servicio |o--o{ comunicacion_adjunto : "orden_servicio_id"
+  comercial_solicitud_cotizacion |o--o{ comunicacion_adjunto : "solicitud_cotizacion_id"
+  comercial_cotizacion |o--o{ comunicacion_adjunto : "cotizacion_id"
+  proyectos_solicitud_desarrollo |o--o{ comunicacion_adjunto : "solicitud_desarrollo_id"
+  proyectos_proyecto |o--o{ comunicacion_adjunto : "proyecto_id"
+  comercial_factura |o--o{ comunicacion_adjunto : "factura_id"
+  identidad_persona |o--o{ comunicacion_archivo : "actor_persona_id"
+  comercial_pedido |o--o{ comunicacion_conversacion : "pedido_id"
+  servicios_solicitud_servicio |o--o{ comunicacion_conversacion : "solicitud_servicio_id"
+  servicios_orden_servicio |o--o{ comunicacion_conversacion : "orden_servicio_id"
+  comercial_solicitud_cotizacion |o--o{ comunicacion_conversacion : "solicitud_cotizacion_id"
+  comercial_cotizacion |o--o{ comunicacion_conversacion : "cotizacion_id"
+  proyectos_solicitud_desarrollo |o--o{ comunicacion_conversacion : "solicitud_desarrollo_id"
+  proyectos_proyecto |o--o{ comunicacion_conversacion : "proyecto_id"
+  comunicacion_notificacion ||--o{ comunicacion_entrega_notificacion : "notificacion_id"
+  comunicacion_mensaje ||--o{ comunicacion_lectura_mensaje : "mensaje_id"
+  comunicacion_participante_conversacion ||--o{ comunicacion_lectura_mensaje : "participante_id"
+  comunicacion_participante_conversacion ||--o{ comunicacion_mensaje : "autor_participante_id"
+  identidad_usuario ||--o{ comunicacion_notificacion : "destinatario_usuario_id"
+  comercial_version_cotizacion |o--o{ comunicacion_notificacion : "version_cotizacion_id"
+  comercial_pedido |o--o{ comunicacion_notificacion : "pedido_id"
+  servicios_solicitud_servicio |o--o{ comunicacion_notificacion : "solicitud_servicio_id"
+  servicios_orden_servicio |o--o{ comunicacion_notificacion : "orden_servicio_id"
+  comercial_solicitud_cotizacion |o--o{ comunicacion_notificacion : "solicitud_cotizacion_id"
+  comercial_cotizacion |o--o{ comunicacion_notificacion : "cotizacion_id"
+  proyectos_solicitud_desarrollo |o--o{ comunicacion_notificacion : "solicitud_desarrollo_id"
+  proyectos_proyecto |o--o{ comunicacion_notificacion : "proyecto_id"
+  comercial_factura |o--o{ comunicacion_notificacion : "factura_id"
+  comunicacion_conversacion ||--o{ comunicacion_participante_conversacion : "conversacion_id"
+  identidad_persona ||--o{ comunicacion_participante_conversacion : "persona_id"
+  identidad_persona |o--o{ auditoria_evento_auditoria : "actor_persona_id"

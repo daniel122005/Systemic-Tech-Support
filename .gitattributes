@@ -1,0 +1,5 @@
+# Finales de línea LF en todo el repositorio (los scripts SQL tienen hashes SHA-256 en sus manifiestos).
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.woff2 binary

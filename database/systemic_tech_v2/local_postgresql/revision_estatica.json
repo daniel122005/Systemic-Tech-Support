@@ -1,0 +1,8 @@
+{
+  "tablas_en_metadatos": 62,
+  "columnas_en_metadatos": 603,
+  "relaciones_fk": 137,
+  "errores_revision_textual": [],
+  "sql_ejecutado_en_postgresql": false,
+  "alcance": "Presencia de tablas y archivos, delimitadores dollar-quote pares y ausencia de CREATE SYNONYM. No sustituye compilación ni pruebas en el servidor."
+}

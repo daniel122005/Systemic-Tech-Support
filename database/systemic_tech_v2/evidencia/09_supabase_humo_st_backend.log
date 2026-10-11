@@ -1,0 +1,1 @@
+psql:/home/claude/entrega/supabase/verificacion/humo_backend_supabase.sql:27: NOTICE:  Prueba de humo superada: conexión st_backend, contexto fail-closed, RLS y sin escritura directa

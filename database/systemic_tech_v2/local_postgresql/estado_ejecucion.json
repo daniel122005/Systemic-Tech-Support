@@ -1,0 +1,11 @@
+{
+  "fecha_actualizacion": "2026-10-09",
+  "evidencia": "Ejecuciones de Claude en réplicas PostgreSQL 18.3 (misma versión del usuario) y 17.6 con restricciones de Supabase; registros en evidencia/. Sin acceso al servidor del usuario ni a Supabase.",
+  "estructura": "Compilada y confirmada en el servidor del usuario (capturas previas). Sin cambios en la corrección 06",
+  "datos_demo": "En el servidor del usuario: carga 70 abortada por el error de proyectos.proteger_datos (sin confirmar). En réplica: retomar_datos_psql.sql + completar_datos_psql.sql ejecutados sin error",
+  "parches": "03-05 aplicados y verificados en réplica sobre el estado reproducido; ejecución en el servidor del usuario pendiente (paso L1)",
+  "pruebas_funcionales": "Réplica PG 18.3: probar_psql.sql sin error (C, S, P, T40, A, Q, R). Réplica Supabase PG 17.6: probar_supabase_local.sql sin error (incluye SB01-SB16). Servidor del usuario: pendiente (paso L3)",
+  "supabase": "Migraciones, seed y verificaciones preparadas y ejecutadas en simulación; proyecto real no desplegado ni verificado",
+  "ejecucion_directa_por_herramientas": false,
+  "siguiente_archivo": "retomar_datos_psql.sql, luego completar_datos_psql.sql y probar_psql.sql"
+}

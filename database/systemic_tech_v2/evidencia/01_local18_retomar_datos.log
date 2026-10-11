@@ -1,0 +1,118 @@
+psql:retomar_datos_psql.sql:4: WARNING:  there is no transaction in progress
+                               resultado                               
+-----------------------------------------------------------------------
+ Datos ficticios insertados y comprobaciones de demostración superadas
+(1 row)
+
+psql:80_verificacion.sql:23: NOTICE:  Estructura, políticas, privilegios e invariantes comprobados
+ producto_id |     sku      |           nombre            | unidad | existencia_fisica | cantidad_reservada | cantidad_disponible 
+-------------+--------------+-----------------------------+--------+-------------------+--------------------+---------------------
+           3 | DEMO-SSD-001 | SSD de demostración         | unidad |             9.000 |              2.000 |               7.000
+           4 | DEMO-USB-001 | Memoria USB de demostración | unidad |            20.000 |              0.000 |              20.000
+(2 rows)
+
+ id | numero | cliente_id |   estado   | moneda |          created_at           | lineas | unidades | subtotal  | impuestos |   total   
+----+--------+------------+------------+--------+-------------------------------+--------+----------+-----------+-----------+-----------
+  4 |      4 |          3 | completado | COP    | 2026-10-09 13:42:46.824489-05 |      1 |    1.000 | 100000.00 |      0.00 | 100000.00
+  5 |      5 |          3 | confirmado | COP    | 2026-10-09 13:42:46.824489-05 |      1 |    2.000 | 190000.00 |      0.00 | 190000.00
+  6 |      6 |          4 | borrador   | COP    | 2026-10-09 13:42:46.824489-05 |      1 |    1.000 |  30000.00 |      0.00 |  30000.00
+(3 rows)
+
+ id | numero | estado  | moneda | receptor_nombre |          emitida_en           | pedido_id | orden_servicio_id | proyecto_id | subtotal  | impuestos |   total   
+----+--------+---------+--------+-----------------+-------------------------------+-----------+-------------------+-------------+-----------+-----------+-----------
+  2 |      2 | emitida | COP    | Cliente Ejemplo | 2026-10-09 13:42:46.934875-05 |         4 |                   |             | 100000.00 |      0.00 | 100000.00
+(1 row)
+
+ id |                  codigo                  |      nombre       | cliente_id |    estado    | cantidad_etapas | porcentaje_avance 
+----+------------------------------------------+-------------------+------------+--------------+-----------------+-------------------
+  2 | PRY-17724c27-f001-4707-a1e6-879f7e353032 | Portal de soporte |          3 | en_ejecucion |               2 |             40.00
+(1 row)
+
+       proceso        |                  codigo                  |    estado    |             fecha             
+----------------------+------------------------------------------+--------------+-------------------------------
+ pedido               | 4                                        | completado   | 2026-10-09 13:42:46.824489-05
+ pedido               | 5                                        | confirmado   | 2026-10-09 13:42:46.824489-05
+ pedido               | 6                                        | borrador     | 2026-10-09 13:42:46.824489-05
+ cotizacion           | 2                                        | aceptada     | 2026-10-09 13:42:46.824489-05
+ solicitud_cotizacion | SC-655534ea-8e5a-4719-a306-ee8d1fb3e762  | atendida     | 2026-10-09 13:42:46.824489-05
+ solicitud_servicio   | SOL-27013a52-bbad-47c4-8f28-1df88054f8c4 | aceptada     | 2026-10-09 13:42:46.824489-05
+ solicitud_servicio   | SOL-244ef351-a9f1-48ae-a024-84aa9d50901f | aceptada     | 2026-10-09 13:42:46.824489-05
+ orden_servicio       | OT-c8769f59-b9fe-40e1-9b77-3cf158575bfc  | finalizada   | 2026-10-09 13:42:46.824489-05
+ orden_servicio       | OT-c58e5f48-3e3e-4211-b02f-ae010dd19acf  | asignada     | 2026-10-09 13:42:46.824489-05
+ solicitud_desarrollo | SD-d7b91953-50c5-4e0f-8f85-628caa466fe8  | aprobada     | 2026-10-09 13:42:46.824489-05
+ proyecto             | PRY-17724c27-f001-4707-a1e6-879f7e353032 | en_ejecucion | 2026-10-09 13:42:46.824489-05
+ factura              | 2                                        | emitida      | 2026-10-09 13:42:46.824489-05
+(12 rows)
+
+ operacion | esquema_objeto |          tabla_objeto          | eventos 
+-----------+----------------+--------------------------------+---------
+ INSERT    | comercial      | carrito                        |       1
+ UPDATE    | comercial      | carrito                        |       2
+ INSERT    | comercial      | cotizacion                     |       1
+ UPDATE    | comercial      | cotizacion                     |       1
+ INSERT    | comercial      | detalle_carrito                |       1
+ INSERT    | comercial      | detalle_cotizacion             |       1
+ INSERT    | comercial      | detalle_factura                |       1
+ UPDATE    | comercial      | detalle_factura                |       1
+ INSERT    | comercial      | detalle_pedido                 |       3
+ UPDATE    | comercial      | detalle_pedido                 |       1
+ INSERT    | comercial      | factura                        |       1
+ UPDATE    | comercial      | factura                        |       1
+ INSERT    | comercial      | historial_cotizacion           |       5
+ INSERT    | comercial      | historial_factura              |       2
+ INSERT    | comercial      | historial_pedido               |       6
+ INSERT    | comercial      | historial_solicitud_cotizacion |       3
+ INSERT    | comercial      | pedido                         |       3
+ UPDATE    | comercial      | pedido                         |       3
+ INSERT    | comercial      | solicitud_cotizacion           |       1
+ UPDATE    | comercial      | solicitud_cotizacion           |       2
+ INSERT    | comercial      | version_cotizacion             |       1
+ UPDATE    | comercial      | version_cotizacion             |       2
+ INSERT    | comunicacion   | conversacion                   |       1
+ INSERT    | comunicacion   | lectura_mensaje                |       1
+ INSERT    | comunicacion   | mensaje                        |       1
+ INSERT    | comunicacion   | notificacion                   |      20
+ INSERT    | comunicacion   | participante_conversacion      |       2
+ INSERT    | identidad      | cliente                        |       2
+ INSERT    | identidad      | empleado                       |       1
+ INSERT    | identidad      | permiso                        |      58
+ INSERT    | identidad      | persona                        |       3
+ INSERT    | identidad      | rol                            |       5
+ INSERT    | identidad      | rol_permiso                    |      70
+ INSERT    | identidad      | usuario                        |       2
+ INSERT    | identidad      | usuario_rol                    |       4
+ INSERT    | inventario     | categoria                      |       1
+ INSERT    | inventario     | inventario                     |       2
+ UPDATE    | inventario     | inventario                     |       3
+ INSERT    | inventario     | movimiento_inventario          |       3
+ INSERT    | inventario     | producto                       |       2
+ UPDATE    | inventario     | producto                       |       1
+ INSERT    | inventario     | reserva_inventario             |       2
+ UPDATE    | inventario     | reserva_inventario             |       1
+ INSERT    | proyectos      | avance_proyecto                |       2
+ INSERT    | proyectos      | etapa_proyecto                 |       2
+ INSERT    | proyectos      | historial_proyecto             |       2
+ INSERT    | proyectos      | historial_solicitud_desarrollo |       3
+ INSERT    | proyectos      | miembro_proyecto               |       1
+ INSERT    | proyectos      | proyecto                       |       1
+ UPDATE    | proyectos      | proyecto                       |       1
+ INSERT    | proyectos      | solicitud_desarrollo           |       1
+ UPDATE    | proyectos      | solicitud_desarrollo           |       2
+ INSERT    | servicios      | asignacion_servicio            |       2
+ INSERT    | servicios      | calificacion_servicio          |       1
+ INSERT    | servicios      | cita_servicio                  |       1
+ INSERT    | servicios      | disponibilidad_tecnico         |       1
+ INSERT    | servicios      | equipo_cliente                 |       1
+ INSERT    | servicios      | historial_servicio             |       6
+ INSERT    | servicios      | historial_solicitud_servicio   |       6
+ INSERT    | servicios      | mantenimiento                  |       1
+ INSERT    | servicios      | orden_servicio                 |       2
+ UPDATE    | servicios      | orden_servicio                 |       4
+ INSERT    | servicios      | reparacion                     |       1
+ UPDATE    | servicios      | reparacion                     |       1
+ INSERT    | servicios      | servicio_ofrecido              |       2
+ INSERT    | servicios      | solicitud_servicio             |       2
+ UPDATE    | servicios      | solicitud_servicio             |       4
+(67 rows)
+
+DATOS DE DEMOSTRACION Y VERIFICACION BASICA TERMINADOS

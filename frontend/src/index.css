@@ -1,0 +1,134 @@
+@import 'tailwindcss';
+
+/* Paleta tomada del logo (docs/DISENO_FRONTEND.md) */
+@theme {
+  --color-noche: #011631;
+  --color-noche-2: #04203f;
+  --color-profundo: #0e4e7a;
+  --color-medio: #0f6b92;
+  --color-cian: #08c6c4;
+  --color-brillo: #22e3e0;
+  --color-hueso: #eef0ef;
+  --color-gris: #9fb3c8;
+  --color-whatsapp: #25d366;
+
+  --font-display: 'Sora Variable', 'Segoe UI', sans-serif;
+  --font-sans: 'Inter Variable', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-noche font-sans text-hueso antialiased;
+  }
+  ::selection {
+    @apply bg-cian text-noche;
+  }
+  /* Foco visible en toda la interfaz (navegación por teclado) */
+  :focus-visible {
+    outline: 2px solid var(--color-brillo);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+/* Utilidades propias (Tailwind v4: @utility permite usarlas con variantes y @apply) */
+@utility contenedor {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+@utility etiqueta-tecnica {
+  @apply font-mono text-[0.7rem] tracking-[0.25em] uppercase sm:text-xs;
+}
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 font-display text-sm font-semibold transition-[background-color,color,box-shadow,border-color] duration-200;
+}
+@utility btn-primario {
+  @apply btn bg-cian text-noche hover:bg-brillo hover:shadow-[0_0_32px_-4px_rgba(34,227,224,0.6)];
+}
+@utility btn-secundario {
+  @apply btn border border-cian/50 text-cian hover:border-brillo hover:bg-cian/10 hover:text-brillo;
+}
+
+/* Fondo: rejilla fina + líneas diagonales como en la maqueta */
+.fondo-rejilla {
+  background-image:
+    linear-gradient(rgba(8, 198, 196, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(8, 198, 196, 0.07) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 75% 65% at 55% 45%, #000 30%, transparent 80%);
+}
+.fondo-diagonales {
+  background-image: repeating-linear-gradient(115deg, rgba(159, 179, 200, 0.05) 0 1px, transparent 1px 120px);
+}
+
+/* Barrido de brillo sobre "TÉCNICO" */
+.texto-brillo {
+  background: linear-gradient(100deg, var(--color-cian) 0%, var(--color-cian) 40%, #ffffff 50%, var(--color-cian) 60%, var(--color-cian) 100%);
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgba(8, 198, 196, 0.45));
+  /* background-clip: text solo pinta dentro de la caja: se amplía hacia arriba para que la tilde de la É sea visible */
+  padding-top: 0.16em;
+  margin-top: -0.16em;
+  animation: barrido 5s ease-in-out 1.4s infinite;
+}
+@keyframes barrido {
+  0% { background-position: 100% 0; }
+  35%, 100% { background-position: -50% 0; }
+}
+
+/* Pulso que viaja por las pistas de circuito */
+.pulso-pista {
+  stroke-dasharray: 0.06 1;
+  stroke-dashoffset: 1.06;
+  animation: viajar 3.2s linear infinite;
+}
+@keyframes viajar {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Partículas */
+.particula {
+  animation: titilar var(--dur, 6s) ease-in-out var(--retraso, 0s) infinite;
+}
+@keyframes titilar {
+  0%, 100% { opacity: 0.15; transform: translateY(0); }
+  50% { opacity: 0.9; transform: translateY(-14px); }
+}
+
+/* Borde con gradiente giratorio de las tarjetas */
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+.borde-giratorio {
+  animation: girar 4s linear infinite;
+}
+
+/* Pulso del botón de WhatsApp */
+@keyframes onda {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+.onda {
+  animation: onda 2.4s ease-out infinite;
+}
+
+/* Accesibilidad: sin animaciones grandes si el usuario lo pide */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .texto-brillo,
+  .pulso-pista,
+  .particula,
+  .borde-giratorio,
+  .onda {
+    animation: none !important;
+  }
+  .pulso-pista { opacity: 0; }
+}

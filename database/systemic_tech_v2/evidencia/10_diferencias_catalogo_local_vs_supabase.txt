@@ -1,0 +1,55 @@
+# Diferencias de catálogo: local PG 18.3 (escenario 1) vs simulación Supabase PG 17.6 (escenario 3)
+# '<' solo en local, '>' solo en Supabase. Resumen por tipo:
+      7 < esquema
+      2 < extension
+    413 < restriccion
+     12 < rutina
+      7 > esquema
+      2 > extension
+     14 > rutina
+
+# Detalle (sin las líneas NOT NULL que solo PG 18 registra como restricción):
+< esquema|auditoria|owner=st_owner acl={st_owner=UC/st_owner,st_app=U/st_owner,st_lectura=U/st_owner,st_worker=U/st_owner}
+< esquema|comercial|owner=st_owner acl={st_owner=UC/st_owner,st_app=U/st_owner,st_lectura=U/st_owner,st_worker=U/st_owner}
+< esquema|comunicacion|owner=st_owner acl={st_owner=UC/st_owner,st_app=U/st_owner,st_lectura=U/st_owner,st_worker=U/st_owner}
+< esquema|identidad|owner=st_owner acl={st_owner=UC/st_owner,st_app=U/st_owner,st_lectura=U/st_owner,st_worker=U/st_owner}
+< esquema|inventario|owner=st_owner acl={st_owner=UC/st_owner,st_app=U/st_owner,st_lectura=U/st_owner,st_worker=U/st_owner}
+< esquema|proyectos|owner=st_owner acl={st_owner=UC/st_owner,st_app=U/st_owner,st_lectura=U/st_owner,st_worker=U/st_owner}
+< esquema|servicios|owner=st_owner acl={st_owner=UC/st_owner,st_app=U/st_owner,st_lectura=U/st_owner,st_worker=U/st_owner}
+< extension|btree_gist|public
+< extension|pgcrypto|public
+> esquema|auditoria|owner=postgres acl={postgres=UC/postgres,st_owner=U*C*/postgres,st_app=U/st_owner,st_lectura=U/st_owner,st_worker=U/st_owner}
+> esquema|comercial|owner=postgres acl={postgres=UC/postgres,st_owner=U*C*/postgres,st_app=U/st_owner,st_lectura=U/st_owner,st_worker=U/st_owner}
+> esquema|comunicacion|owner=postgres acl={postgres=UC/postgres,st_owner=U*C*/postgres,st_app=U/st_owner,st_lectura=U/st_owner,st_worker=U/st_owner}
+> esquema|identidad|owner=postgres acl={postgres=UC/postgres,st_owner=U*C*/postgres,st_app=U/st_owner,st_lectura=U/st_owner,st_worker=U/st_owner}
+> esquema|inventario|owner=postgres acl={postgres=UC/postgres,st_owner=U*C*/postgres,st_app=U/st_owner,st_lectura=U/st_owner,st_worker=U/st_owner}
+> esquema|proyectos|owner=postgres acl={postgres=UC/postgres,st_owner=U*C*/postgres,st_app=U/st_owner,st_lectura=U/st_owner,st_worker=U/st_owner}
+> esquema|servicios|owner=postgres acl={postgres=UC/postgres,st_owner=U*C*/postgres,st_app=U/st_owner,st_lectura=U/st_owner,st_worker=U/st_owner}
+> extension|btree_gist|extensions
+> extension|pgcrypto|extensions
+< rutina|comercial.crear_carrito(bigint,text,bigint)|owner=st_owner secdef=true acl={st_owner=X/st_owner,st_app=X/st_owner} md5=d94120ee21f394a5e861b1c437147fc5
+> rutina|comercial.crear_carrito(bigint,text,bigint)|owner=st_owner secdef=true acl={st_owner=X/st_owner,st_app=X/st_owner} md5=0e2874aada9664cf311d9a5f0d4310e5
+< rutina|comercial.exigir_carrito(bigint,text)|owner=st_owner secdef=true acl={st_owner=X/st_owner} md5=45bdd3a81c48f332ebebc7d113a153c3
+> rutina|comercial.exigir_carrito(bigint,text)|owner=st_owner secdef=true acl={st_owner=X/st_owner} md5=00adefd0c2592be516cf602582151cd9
+< rutina|identidad.acceso_invitado_actual()|owner=st_owner secdef=true acl={st_owner=X/st_owner} md5=81f719a6b583c1a389c938faae333bad
+> rutina|identidad.acceso_invitado_actual()|owner=st_owner secdef=true acl={st_owner=X/st_owner} md5=e3aa9efa11a3bf9f94226d8970b578f5
+< rutina|identidad.cerrar_sesion(bigint)|owner=st_owner secdef=true acl={st_owner=X/st_owner,st_app=X/st_owner} md5=a61da4a5fa41c8d7d3dc7fe0791b0718
+> rutina|identidad.cerrar_sesion(bigint)|owner=st_owner secdef=true acl={st_owner=X/st_owner} md5=a61da4a5fa41c8d7d3dc7fe0791b0718
+< rutina|identidad.confirmar_correo(bigint)|owner=st_owner secdef=true acl={st_owner=X/st_owner,st_worker=X/st_owner} md5=cc0dedcf68eb7cc449f34e38850d0cac
+< rutina|identidad.consumir_recuperacion(text,text)|owner=st_owner secdef=true acl={st_owner=X/st_owner,st_worker=X/st_owner} md5=654d71b6650bff2939c02c14fd5a323c
+< rutina|identidad.datos_autenticacion(text)|owner=st_owner secdef=true acl={st_owner=X/st_owner,st_worker=X/st_owner} md5=366135cb6e32a7756535f95fb6ccc73b
+< rutina|identidad.emitir_acceso_invitado(bigint,text,bigint,bigint,text,text,timestamp with time zone,timestamp with time zone,text,text[],bigint)|owner=st_owner secdef=true acl={st_owner=X/st_owner,st_worker=X/st_owner} md5=f3eb79a3bdf0bc8852c265d390b49c81
+> rutina|identidad.confirmar_correo(bigint)|owner=st_owner secdef=true acl={st_owner=X/st_owner} md5=cc0dedcf68eb7cc449f34e38850d0cac
+> rutina|identidad.consumir_recuperacion(text,text)|owner=st_owner secdef=true acl={st_owner=X/st_owner} md5=1574adbfdeb86f1d4a3d7855e9a814e0
+> rutina|identidad.datos_autenticacion(text)|owner=st_owner secdef=true acl={st_owner=X/st_owner} md5=366135cb6e32a7756535f95fb6ccc73b
+> rutina|identidad.emitir_acceso_invitado(bigint,text,bigint,bigint,text,text,timestamp with time zone,timestamp with time zone,text,text[],bigint)|owner=st_owner secdef=true acl={st_owner=X/st_owner,st_worker=X/st_owner} md5=20bb9ae48936d292a2ae32e6f0e0be43
+< rutina|identidad.estado_sesion(bigint,bytea)|owner=st_owner secdef=true acl={st_owner=X/st_owner,st_worker=X/st_owner} md5=2f1e0daaf8a0951d404ca516a8ab8d3d
+> rutina|identidad.estado_sesion(bigint,bytea)|owner=st_owner secdef=true acl={st_owner=X/st_owner} md5=2f1e0daaf8a0951d404ca516a8ab8d3d
+> rutina|identidad.iniciar_contexto_supabase(uuid,uuid)|owner=st_owner secdef=true acl={st_owner=X/st_owner,st_app=X/st_owner} md5=dd4b78936a164858ef0d2091c620cf96
+< rutina|identidad.preparar_recuperacion(bigint,bytea,timestamp with time zone,bigint)|owner=st_owner secdef=true acl={st_owner=X/st_owner,st_worker=X/st_owner} md5=090c09424475a5c3c2b20e084dfaa267
+> rutina|identidad.preparar_recuperacion(bigint,bytea,timestamp with time zone,bigint)|owner=st_owner secdef=true acl={st_owner=X/st_owner} md5=090c09424475a5c3c2b20e084dfaa267
+< rutina|identidad.registrar_sesion(bigint,bytea,timestamp with time zone,bigint)|owner=st_owner secdef=true acl={st_owner=X/st_owner,st_app=X/st_owner} md5=6056c25677e05e0727b958d52e73247f
+< rutina|identidad.registrar_usuario(text,text,text,text,text,text,text,text,bigint)|owner=st_owner secdef=true acl={st_owner=X/st_owner,st_app=X/st_owner} md5=2ec3bbc89cd53b24bdffa29ac6f3703f
+> rutina|identidad.registrar_sesion(bigint,bytea,timestamp with time zone,bigint)|owner=st_owner secdef=true acl={st_owner=X/st_owner} md5=6056c25677e05e0727b958d52e73247f
+> rutina|identidad.registrar_usuario(text,text,text,text,text,text,text,text,bigint)|owner=st_owner secdef=true acl={st_owner=X/st_owner} md5=2ec3bbc89cd53b24bdffa29ac6f3703f
+> rutina|identidad.sincronizar_usuario_supabase()|owner=st_owner secdef=true acl={st_owner=X/st_owner} md5=49f29dd7e23d3f9b146774a0f6705179

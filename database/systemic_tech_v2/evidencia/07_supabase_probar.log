@@ -1,0 +1,248 @@
+psql:80_verificacion.sql:23: NOTICE:  Estructura, políticas, privilegios e invariantes comprobados
+ producto_id |     sku      |           nombre            | unidad | existencia_fisica | cantidad_reservada | cantidad_disponible 
+-------------+--------------+-----------------------------+--------+-------------------+--------------------+---------------------
+           1 | DEMO-SSD-001 | SSD de demostración         | unidad |             9.000 |              2.000 |               7.000
+           2 | DEMO-USB-001 | Memoria USB de demostración | unidad |            20.000 |              0.000 |              20.000
+(2 rows)
+
+ id | numero | cliente_id |   estado   | moneda |          created_at           | lineas | unidades | subtotal  | impuestos |   total   
+----+--------+------------+------------+--------+-------------------------------+--------+----------+-----------+-----------+-----------
+  1 |      1 |          1 | completado | COP    | 2026-10-09 13:42:57.570878-05 |      1 |    1.000 | 100000.00 |      0.00 | 100000.00
+  2 |      2 |          1 | confirmado | COP    | 2026-10-09 13:42:57.570878-05 |      1 |    2.000 | 190000.00 |      0.00 | 190000.00
+  3 |      3 |          2 | borrador   | COP    | 2026-10-09 13:42:57.570878-05 |      1 |    1.000 |  30000.00 |      0.00 |  30000.00
+(3 rows)
+
+ id | numero | estado  | moneda | receptor_nombre |          emitida_en           | pedido_id | orden_servicio_id | proyecto_id | subtotal  | impuestos |   total   
+----+--------+---------+--------+-----------------+-------------------------------+-----------+-------------------+-------------+-----------+-----------+-----------
+  1 |      1 | emitida | COP    | Cliente Ejemplo | 2026-10-09 13:42:57.649956-05 |         1 |                   |             | 100000.00 |      0.00 | 100000.00
+(1 row)
+
+ id |                  codigo                  |      nombre       | cliente_id |    estado    | cantidad_etapas | porcentaje_avance 
+----+------------------------------------------+-------------------+------------+--------------+-----------------+-------------------
+  1 | PRY-3bd6555e-f305-4797-ba51-a5de77daa558 | Portal de soporte |          1 | en_ejecucion |               2 |             40.00
+(1 row)
+
+       proceso        |                  codigo                  |    estado    |             fecha             
+----------------------+------------------------------------------+--------------+-------------------------------
+ pedido               | 1                                        | completado   | 2026-10-09 13:42:57.570878-05
+ pedido               | 2                                        | confirmado   | 2026-10-09 13:42:57.570878-05
+ pedido               | 3                                        | borrador     | 2026-10-09 13:42:57.570878-05
+ cotizacion           | 1                                        | aceptada     | 2026-10-09 13:42:57.570878-05
+ solicitud_cotizacion | SC-aa05eb2f-08e3-41c5-a912-d8f438261ea5  | atendida     | 2026-10-09 13:42:57.570878-05
+ solicitud_servicio   | SOL-34725679-b78e-48d8-914f-f77deb4d7777 | aceptada     | 2026-10-09 13:42:57.570878-05
+ solicitud_servicio   | SOL-a90292bc-09b1-4b86-98d5-a8e8aad855aa | aceptada     | 2026-10-09 13:42:57.570878-05
+ orden_servicio       | OT-e0f0a2b8-ba0d-444c-b342-5ee4c719b3eb  | finalizada   | 2026-10-09 13:42:57.570878-05
+ orden_servicio       | OT-a790d488-e8fb-450f-94a1-2ae2a89ae2dd  | asignada     | 2026-10-09 13:42:57.570878-05
+ solicitud_desarrollo | SD-63caa686-c9ad-4750-bff8-4481ba9a4850  | aprobada     | 2026-10-09 13:42:57.570878-05
+ proyecto             | PRY-3bd6555e-f305-4797-ba51-a5de77daa558 | en_ejecucion | 2026-10-09 13:42:57.570878-05
+ factura              | 1                                        | emitida      | 2026-10-09 13:42:57.570878-05
+(12 rows)
+
+ operacion | esquema_objeto |          tabla_objeto          | eventos 
+-----------+----------------+--------------------------------+---------
+ INSERT    | comercial      | carrito                        |       1
+ UPDATE    | comercial      | carrito                        |       2
+ INSERT    | comercial      | comprobante_factura            |       1
+ INSERT    | comercial      | cotizacion                     |       1
+ UPDATE    | comercial      | cotizacion                     |       1
+ INSERT    | comercial      | detalle_carrito                |       1
+ INSERT    | comercial      | detalle_cotizacion             |       1
+ INSERT    | comercial      | detalle_factura                |       1
+ UPDATE    | comercial      | detalle_factura                |       1
+ INSERT    | comercial      | detalle_pedido                 |       3
+ UPDATE    | comercial      | detalle_pedido                 |       1
+ INSERT    | comercial      | factura                        |       1
+ UPDATE    | comercial      | factura                        |       1
+ INSERT    | comercial      | historial_cotizacion           |       5
+ INSERT    | comercial      | historial_factura              |       2
+ INSERT    | comercial      | historial_pedido               |       6
+ INSERT    | comercial      | historial_solicitud_cotizacion |       3
+ INSERT    | comercial      | pedido                         |       3
+ UPDATE    | comercial      | pedido                         |       3
+ INSERT    | comercial      | solicitud_cotizacion           |       1
+ UPDATE    | comercial      | solicitud_cotizacion           |       2
+ INSERT    | comercial      | version_cotizacion             |       1
+ UPDATE    | comercial      | version_cotizacion             |       2
+ INSERT    | comunicacion   | adjunto                        |       1
+ INSERT    | comunicacion   | archivo                        |       3
+ UPDATE    | comunicacion   | archivo                        |       3
+ INSERT    | comunicacion   | conversacion                   |       1
+ INSERT    | comunicacion   | entrega_notificacion           |       1
+ UPDATE    | comunicacion   | entrega_notificacion           |       3
+ INSERT    | comunicacion   | lectura_mensaje                |       1
+ INSERT    | comunicacion   | mensaje                        |       1
+ INSERT    | comunicacion   | notificacion                   |      20
+ INSERT    | comunicacion   | participante_conversacion      |       2
+ INSERT    | identidad      | acceso_invitado                |       1
+ INSERT    | identidad      | acceso_invitado_permiso        |       1
+ INSERT    | identidad      | cliente                        |       2
+ INSERT    | identidad      | empleado                       |       1
+ INSERT    | identidad      | permiso                        |      58
+ INSERT    | identidad      | persona                        |       3
+ INSERT    | identidad      | rol                            |       5
+ INSERT    | identidad      | rol_permiso                    |      70
+ INSERT    | identidad      | usuario                        |       2
+ INSERT    | identidad      | usuario_rol                    |       4
+ INSERT    | inventario     | categoria                      |       1
+ INSERT    | inventario     | inventario                     |       2
+ UPDATE    | inventario     | inventario                     |       3
+ INSERT    | inventario     | movimiento_inventario          |       3
+ INSERT    | inventario     | producto                       |       2
+ UPDATE    | inventario     | producto                       |       1
+ INSERT    | inventario     | producto_imagen                |       1
+ INSERT    | inventario     | reserva_inventario             |       2
+ UPDATE    | inventario     | reserva_inventario             |       1
+ INSERT    | proyectos      | avance_proyecto                |       2
+ INSERT    | proyectos      | etapa_proyecto                 |       2
+ INSERT    | proyectos      | historial_proyecto             |       2
+ INSERT    | proyectos      | historial_solicitud_desarrollo |       3
+ INSERT    | proyectos      | miembro_proyecto               |       1
+ INSERT    | proyectos      | proyecto                       |       1
+ UPDATE    | proyectos      | proyecto                       |       1
+ INSERT    | proyectos      | solicitud_desarrollo           |       1
+ UPDATE    | proyectos      | solicitud_desarrollo           |       2
+ INSERT    | servicios      | asignacion_servicio            |       2
+ INSERT    | servicios      | calificacion_servicio          |       1
+ INSERT    | servicios      | cita_servicio                  |       1
+ INSERT    | servicios      | disponibilidad_tecnico         |       1
+ INSERT    | servicios      | equipo_cliente                 |       1
+ INSERT    | servicios      | historial_servicio             |       6
+ INSERT    | servicios      | historial_solicitud_servicio   |       6
+ INSERT    | servicios      | mantenimiento                  |       1
+ INSERT    | servicios      | orden_servicio                 |       2
+ UPDATE    | servicios      | orden_servicio                 |       4
+ INSERT    | servicios      | reparacion                     |       1
+ UPDATE    | servicios      | reparacion                     |       1
+ INSERT    | servicios      | servicio_ofrecido              |       2
+ INSERT    | servicios      | solicitud_servicio             |       2
+ UPDATE    | servicios      | solicitud_servicio             |       4
+(76 rows)
+
+psql:83_pruebas_comercial.sql:58: NOTICE:  C01 OK: confirmación idempotente
+psql:83_pruebas_comercial.sql:58: NOTICE:  C02 OK: clave discordante rechazada
+psql:83_pruebas_comercial.sql:58: NOTICE:  C03 OK: sobreventa rechazada sin reserva parcial
+psql:83_pruebas_comercial.sql:58: NOTICE:  C04 OK: detalle confirmado inmutable
+psql:83_pruebas_comercial.sql:58: NOTICE:  C05 OK: saldo sin movimiento rechazado
+psql:83_pruebas_comercial.sql:58: NOTICE:  C06 OK: factura emitida inmutable
+psql:83_pruebas_comercial.sql:58: NOTICE:  C07 OK: evidencia de auditoría protegida
+psql:83_pruebas_comercial.sql:58: NOTICE:  C08 OK: versión aceptada y precios protegidos
+ codigo |                                  resultado                                   
+--------+------------------------------------------------------------------------------
+ P01    | No se ejecuta proyecto sin etapas
+ P02    | Avance ponderado: (1*100+3*20)/4=40
+ P03    | Avances históricos append-only
+ P04    | Etapa con avances no se elimina
+ P05    | Revisión de plan iniciado exige motivo
+ P06    | Revisión autorizada de pesos recalcula porcentaje sin reescribir avances
+ P07    | El autor y la etapa pertenecen al mismo proyecto
+ P08    | Revocar cuenta suspende proyecto y cancela futuras citas sin borrar historia
+ P09    | La revocación conserva reportes históricos de miembros retirados
+ S01    | Solicitud de reparación e historial inicial atómicos
+ S02    | Equipo de otro cliente rechazado
+ S03    | Reparación sin equipo rechazada
+ S04    | Modalidad de oferta con solicitudes inmutable
+ S05    | Titularidad histórica de equipo protegida
+ S06    | Aceptación crea una orden con subtipo reparación exclusivo
+ S07    | Doble subtipo rechazado
+ S08    | Orden sin subtipo rechazada al validar la transacción
+ S09    | La ejecución exige responsable habilitado
+ S10    | Retirar único responsable exige sustitución o pausa
+ S11    | No se cierra reparación sin informe
+ S12    | Cita confirmada dentro de disponibilidad
+ S13    | La ventana no puede dejar una cita futura sin cobertura
+ S14    | EXCLUDE rechaza citas solapadas
+ S15    | Intervalos contiguos permitidos mediante límite final exclusivo
+ S16    | La reprogramación conserva cita anterior y referencia
+ S17    | Reparación finalizada con evidencia técnica
+ S18    | Informe finalizado se conserva
+ S19    | Valoración de persona ajena rechazada
+ S20    | Titular invitado sin cuenta puede valorar con concesión verificada
+ S21    | Mantenimiento sin equipo admite alcance explícito y cierre documentado
+(30 rows)
+
+ casos_correctos 
+-----------------
+              30
+(1 row)
+
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-01 OK: conversación con participantes y mensaje de autor vigente
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-02 OK: primera lectura y conteo sin duplicados
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-03 OK: edición ajena rechazada
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-04 OK: lectura entre conversaciones rechazada
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-05 OK: contenido vacío rechazado al validar transacción
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-06 OK: autor inmutable
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-07 OK: primera lectura inmutable
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-08 OK: mensaje sin texto con adjunto privado validado
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-09 OK: audiencia de archivo asociado protegida
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-10 OK: contenido/ubicación validados inmutables
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-11 OK: asociación conserva validación
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-12 OK: archivo pendiente rechazado
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-12b OK: adjunto interno en mensaje rechazado
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-13 OK: retiro irreversible y vista sin texto
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-14 OK: último participante vigente protegido
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-15 OK: conversación cerrada no admite mensajes
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-16 OK: notificación deduplicada por evento, destinatario y tipo
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-17 OK: idempotencia no admite contenido distinto
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-18 OK: lectura solo por destinatario
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-19 OK: lectura de notificación idempotente
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-20 OK: clave de entrega idempotente
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-21 OK: reclamar precede al resultado
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-22 OK: pendiente -> enviando -> enviada -> entregada y resultado idempotente
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-23 OK: entrega confirmada no se reencola
+psql:82_pruebas_comunicacion.sql:186: NOTICE:  T40-24 OK: resultado final inmutable
+psql:82_pruebas_comunicacion.sql:219: NOTICE:  T40-25 OK: participante normal no obtiene adjunto interno
+psql:82_pruebas_comunicacion.sql:219: NOTICE:  T40-26 OK: adjunto interno exige gestión de conversación
+psql:82_pruebas_comunicacion.sql:219: NOTICE:  T40-27 OK: retiro oculta adjunto al destinatario sin otras asociaciones
+psql:82_pruebas_comunicacion.sql:219: NOTICE:  T40-28 OK: rol de aplicación sin escritura directa
+psql:82_pruebas_comunicacion.sql:219: NOTICE:  T40-29 OK: anonimato sin concesión no obtiene archivo privado
+psql:84_pruebas_acceso.sql:32: NOTICE:  A01-A08 OK: cliente, anonimato, catálogo y privilegios SQL
+psql:85_pruebas_cotizacion_contacto.sql:38: NOTICE:  Q01-Q05 OK: perfil, contacto alternativo, historia e invitado
+psql:87_pruebas_rf.sql:77: NOTICE:  R01 OK [RF-01, RF-07]: visitante consulta productos, precio, disponibilidad e imagen
+psql:87_pruebas_rf.sql:77: NOTICE:  R02 OK [RF-08]: búsqueda por texto, rango de precio y categoría
+psql:87_pruebas_rf.sql:77: NOTICE:  R03 OK [RF-13]: visitante consulta servicios técnicos publicados
+psql:87_pruebas_rf.sql:77: NOTICE:  R04 OK [RF-16]: horarios disponibles consultables
+psql:87_pruebas_rf.sql:77: NOTICE:  R05 OK [RF-06]: visitante sin acceso a pedidos, personas ni facturas
+psql:87_pruebas_rf.sql:77: NOTICE:  R06 OK [RF-09, RF-10]: carrito anónimo agrega/modifica/elimina con secreto y se convierte en pedido
+psql:87_pruebas_rf.sql:77: NOTICE:  R07 OK [RF-19]: visitante solicita cotización sin cuenta
+psql:87_pruebas_rf.sql:170: NOTICE:  R08 OK [RF-05]: cliente consulta y actualiza su perfil, no el de otros
+psql:87_pruebas_rf.sql:170: NOTICE:  R09 OK [RF-09, RF-10]: cliente gestiona carrito, compra y la confirmación reserva inventario
+psql:87_pruebas_rf.sql:170: NOTICE:  R10 OK [RF-11, RF-12]: cliente consulta estado e historial solo de sus pedidos
+psql:87_pruebas_rf.sql:170: NOTICE:  R11 OK [RF-14, RF-15, RF-16]: cliente solicita reparación (con equipo y fecha preferida) y mantenimiento
+psql:87_pruebas_rf.sql:170: NOTICE:  R12 OK [RF-17, RF-18]: cliente ve estado de su reparación e historial de reparaciones y mantenimientos
+psql:87_pruebas_rf.sql:170: NOTICE:  R13 OK [RF-20]: cliente consulta sus cotizaciones y versiones
+psql:87_pruebas_rf.sql:170: NOTICE:  R14 OK [RF-22]: cliente solicita desarrollo de software
+psql:87_pruebas_rf.sql:170: NOTICE:  R15 OK [RF-23, RF-24]: cliente ve descripción, etapas, avances (40%) y estado de su proyecto
+psql:87_pruebas_rf.sql:170: NOTICE:  R16 OK [RF-25, RF-26, RF-27]: cliente lee la conversación con el personal y el documento adjunto al proyecto
+psql:87_pruebas_rf.sql:170: NOTICE:  R17 OK [RF-28]: cliente recibe solo sus notificaciones y las marca como leídas
+psql:87_pruebas_rf.sql:170: NOTICE:  R18 OK [RF-29]: cliente consulta su factura y su comprobante
+psql:87_pruebas_rf.sql:170: NOTICE:  R19 OK [RF-30]: cliente ve la calificación y comentario que registró
+psql:87_pruebas_rf.sql:170: NOTICE:  R20 OK [RF-31]: historial centralizado con compras, servicios, cotizaciones, proyectos y facturas
+psql:87_pruebas_rf.sql:170: NOTICE:  R21 OK [RF-06]: el cliente no accede a funciones administrativas
+psql:87_pruebas_rf.sql:227: NOTICE:  R22 OK [RF-40, RF-41]: el personal ve clientes y las tres clases de solicitudes
+psql:87_pruebas_rf.sql:227: NOTICE:  R23 OK [RF-33]: el personal crea categorías y actualiza precio/categoría de productos
+psql:87_pruebas_rf.sql:227: NOTICE:  R24 OK [RF-34]: entradas y salidas actualizan existencias mediante el libro de movimientos
+psql:87_pruebas_rf.sql:227: NOTICE:  R25 OK [RF-35]: el personal actualiza el estado de un pedido
+psql:87_pruebas_rf.sql:227: NOTICE:  R26 OK [RF-38]: el personal crea, detalla y envía una cotización
+psql:87_pruebas_rf.sql:227: NOTICE:  R27 OK [RF-32, RF-40]: el personal actualiza datos de un cliente
+psql:87_pruebas_rf.sql:227: NOTICE:  R28 OK [RF-42]: conceder/retirar permisos a roles y asignar/revocar roles con historial
+psql:87_pruebas_rf.sql:241: NOTICE:  R29 OK [RF-21]: el cliente rechaza una cotización recibida y la respuesta queda fija
+psql:87_pruebas_rf.sql:248: NOTICE:  R30 OK [RF-32, RF-42]: las operaciones de la aplicación quedan en auditoría
+PRUEBAS POR REQUERIMIENTO R01-R30 TERMINADAS SIN ERROR
+psql:86_pruebas_supabase_auth.sql:67: NOTICE:  SB01 OK: alta en Supabase Auth crea persona, cliente y cuenta externa activa
+psql:86_pruebas_supabase_auth.sql:67: NOTICE:  SB02 OK: correo normalizado y nombre desde metadatos alternativos
+psql:86_pruebas_supabase_auth.sql:67: NOTICE:  SB03 OK: cuenta sin confirmar queda pendiente, nombre tomado del correo
+psql:86_pruebas_supabase_auth.sql:67: NOTICE:  SB04 OK: usuario anónimo de Supabase se trata como visitante
+psql:86_pruebas_supabase_auth.sql:67: NOTICE:  SB05 OK: ninguna contraseña almacenada fuera de Supabase Auth
+psql:86_pruebas_supabase_auth.sql:76: NOTICE:  SB06 OK: alta sin correo rechazada (Supabase Auth recibe el error)
+psql:86_pruebas_supabase_auth.sql:110: NOTICE:  SB07 OK: RLS aísla pedidos y personas entre clientes con identidad de Supabase
+psql:86_pruebas_supabase_auth.sql:110: NOTICE:  SB08 OK: cuenta pendiente o sujeto desconocido quedan sin identidad (falla cerrado)
+psql:86_pruebas_supabase_auth.sql:110: NOTICE:  SB09 OK: rutinas de contraseña local retiradas para la aplicación
+psql:86_pruebas_supabase_auth.sql:110: NOTICE:  SB10 OK: sin escritura directa; solo procedimientos autorizados
+psql:86_pruebas_supabase_auth.sql:116: NOTICE:  SB11 OK: anon sin acceso a los esquemas internos
+psql:86_pruebas_supabase_auth.sql:120: NOTICE:  SB12 OK: authenticated sin acceso directo (usa el backend)
+psql:86_pruebas_supabase_auth.sql:124: NOTICE:  SB13 OK: service_role (BYPASSRLS) sin privilegios sobre las tablas
+psql:86_pruebas_supabase_auth.sql:148: NOTICE:  SB14 OK: cambio de correo, bloqueo y baja sincronizados sin borrar historia
+psql:86_pruebas_supabase_auth.sql:155: NOTICE:  SB15 OK: cuenta bloqueada en Supabase Auth pierde la identidad en la base
+psql:86_pruebas_supabase_auth.sql:174: NOTICE:  SB16 OK: cuenta de Supabase con rol administrador accede según sus permisos
+PRUEBAS DE INTEGRACION SUPABASE SB01-SB16 TERMINADAS SIN ERROR
+TODAS LAS PRUEBAS EN SUPABASE LOCAL TERMINARON SIN ERROR
